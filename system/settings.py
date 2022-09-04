@@ -1,14 +1,16 @@
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_hgk)oj#(4z!v-e-orqi!h4uc^w(!k5-o%f%x+5s-(2qoxqh@g'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
