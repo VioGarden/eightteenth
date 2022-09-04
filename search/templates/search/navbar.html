@@ -1,0 +1,44 @@
+<ul>
+    <li>
+        <a href="{% url 'home' %}" class="nav-item">Home</a>
+    </li>
+    <li>
+        <a href="{% url 'quick-search' %}" class="nav-item">Quick</a>
+    </li>
+    <li>
+        <a href="{% url 'filter-search' %}" class="nav-item">Filter</a>
+    </li>
+    <li>
+        <a href="{% url 'song-list' %}" class="nav-item">Song List</a>
+    </li>
+    {% if user.is_authenticated %}
+    <li>
+        <a href="{% url 'logout-user' %}" class="nav-item">Log out</a>
+    </li>
+    <li>
+        <a href="{% url 'profile' %}" class="nav-item">Profile</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{% url 'login-user' %}" class="nav-item">Login</a>
+    </li>
+    <li>
+        <a href="{% url 'register-user' %}" class="nav-item">Register</a>
+    </li>
+    {% endif %}
+
+    <form action="{% url 'quick-search'%}" method=POST>
+        {% csrf_token %}
+        <input 
+            type="search" 
+            id="search"
+            placeholder="search song"
+            name="searched"
+            />
+        <input
+        type="hidden"
+        name="search-type"
+        value="song"
+        >
+    </form>
+</ul>

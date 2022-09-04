@@ -1,0 +1,46 @@
+{% extends 'search/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    {% if user.is_authenticated %}
+    <h2 class="already">You are already Logged in!</h2>
+    {% else %}
+    <form action="" method=POST class="login-form">
+        {% csrf_token %}
+            <h1 class="login-group">Login</h1>
+            <div class="login-group">
+                <label 
+                for="" 
+                class="login-label"
+                >Username</label>
+                <input 
+                type="text" 
+                name="username" 
+                class="login-field"
+                placeholder="username">
+            </div>
+            <div class="login-group">
+                <label 
+                for="" 
+                class="login-label"
+                >Password</label>
+                <input 
+                type="password" 
+                name="password" 
+                class="login-field"
+                placeholder="password">
+            </div>
+            <input type="submit" value="Submit" class="login-button">
+    </form>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

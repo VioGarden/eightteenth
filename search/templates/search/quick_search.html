@@ -1,0 +1,92 @@
+{% extends 'search/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Search</title>
+</head>
+<body>
+    {% block content %}
+    <div>
+        <form action="{% url 'quick-search'%}" method=POST class="search">
+            {% csrf_token %}
+            <div class="search-option">
+                <select class="search-option-select" name="search-type">
+                    <option value="song">Song</option>
+                    <option value="artist">Artist</option>
+                    <option value="show">Show</option>
+                </select>
+            </div>
+            <input 
+            type="search" 
+            id="search"
+            class="search-song"
+            placeholder="search song"
+            name="searched"
+            />
+            <input 
+            class="search-button"
+            type="submit" 
+            value="Submit">
+        </form>
+        {% if searched %}
+            <p>"{{ searched }}" returned {{ count }} results in {{ total_time }} seconds</p>
+        {% endif %}
+    </div>
+
+    <div class="single main-header">
+        <h4>
+            Song Name
+        </h4>
+        <h4>
+            Artist
+        </h4>
+        <h4>
+            Show
+        </h4>
+    </div>
+    <ul id="results" class="result">
+    </ul>
+
+    {% for data in data %}
+    <li class="content">
+        <div onclick=show(this)>
+            <div class="single main-results">
+                <h4>
+                    {{ data.song }}
+                </h4>
+                <h4>
+                    {{ data.artist }}
+                </h4>
+                <h4>
+                    {{ data.show }}
+                </h4>
+            </div>
+        </div>
+        <div class="wrapper wrapper-hidden" id="wrapper">
+            <p class="p1">
+                {{ data.annid }}
+            </p>
+            <p class="p2">
+                {{ data.opedin }}
+            </p>
+            <a href=""class="a1" target="_blank">
+                {{ data.mp3 }}
+            </a>
+            <a href="" class="a2" target="_blank">
+                {{ data.h720 }}
+            </a>
+            <a href="" class="a3" target="_blank">
+                {{ data.h480 }}
+            </a>
+        </div>
+    </li>
+    {% endfor %}
+    <script src="{% static 'js/fold-quick.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

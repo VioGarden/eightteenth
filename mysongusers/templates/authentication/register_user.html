@@ -1,0 +1,39 @@
+{% extends 'search/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    {% if user.is_authenticated %}
+    <div>
+        <p class="already">You are already registered!</p>
+    </div>
+    {% else %}
+        {% if form.errors %}
+        <div>
+            <p>Error with registration form</p>
+        </div>
+        {% endif %}
+        <div>
+            <h1>Register</h1>
+                <br><br>
+                <form action="{% url 'register-user' %}" method=POST>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br><br>
+                    <input 
+                    type="submit" 
+                    value="Submit">
+                </form>
+        </div>
+            <br><br>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

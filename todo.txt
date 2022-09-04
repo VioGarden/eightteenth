@@ -1,0 +1,31 @@
+-Customize Home
+    -top songs
+    -guide to use
+-Dropdown for quick-search, use javascript
+-Filter search
+-Pagination quick search
+-(Pagination css)
+-Register css
+-Customize Profile
+    -number of sungs
+    -order/search Profile
+    -avg score
+    -favs
+-each users own song list
+    -button next to each song
+    -each users own score
+-for every song: 
+    -average score
+    -number of users
+    -(maybe yt link, description, link to mal/anilist/kitsu)
+    -difficulty
+-parse entire database, make official database
+-proper header and footer
+-search stats
+-comments
+-alternative pages for non-logged in users
+
+extra stuff
+-email authentication
+-ranked information
+-search result per page option

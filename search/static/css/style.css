@@ -1,0 +1,252 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    padding: 20px 0px;
+    font-size: 1.3rem;
+    font-family: 'Rubik Maze', cursive;
+}
+
+nav > ul {
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(8, 109, 8);
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.nav-item, .nav-item:visited {
+    font-size: 1rem;
+    padding: 0.66rem 2rem;
+    text-decoration: none;
+    color: rgb(1, 58, 1);
+}
+
+.nav-item:hover {
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: rgb(7, 86, 7);
+}
+
+.nav-item:active {
+    font-size: 1rem;
+    text-decoration: none;
+    color: rgb(48, 53, 130);
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(2, 91, 2);
+    font-family: 'Lato', sans-serif;
+}
+
+main {
+    padding: 0% 2.5%;
+}
+
+.search {
+    padding: 0.75rem 0rem;
+    display: flex;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+}
+
+.search-song, .search-artist, .search-show {
+    border: 2px solid salmon;
+    display: flex;
+    margin: 0 auto;
+    height: 40px;
+    width: 250px;
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+
+
+.search-button {
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(8, 109, 8);
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    display: flex;
+    margin: 0 auto;
+}
+
+.search-button-box {
+    padding-top: 1rem;
+}
+.search-button:hover {
+    background-color: rgb(15, 121, 15);
+}
+
+.search-button:active {
+    box-shadow: inset 0 0 15px rgb(16, 85, 196);
+}
+
+a:link, a:visited {
+    color: blue;
+}
+
+a:hover {
+    color: rgb(14, 14, 127);
+}
+
+a:active {
+    color: rgb(201, 4, 4);
+}
+
+.content {
+    list-style-type: none;
+    padding: 0.1rem 0rem;
+}
+
+.result {
+    padding: 5px 0px;
+}
+
+.single {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0.75rem 0rem;
+}
+
+.main-header {
+    background-color: rgb(11, 106, 11);
+    font-size: 1.5rem;
+    position: sticky;
+    top: 0px;
+}
+
+.single > h4 {
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding-left: 0.25rem;
+}
+
+.single > h4:nth-child(1), .single > h4:nth-child(2), .single > h4:nth-child(3) {
+    flex-basis: 5px;
+}
+
+.main-results {
+    background-color: rgb(8, 109, 8);
+}
+
+.main-results:hover {
+    background-color:rgb(15, 121, 15)
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: rgb(3, 124, 3);
+}
+
+.p1, .p2, .a1, .a2, .a3 {
+    border: 2px solid rgb(8, 109, 8);
+    flex-grow: 1;
+    padding: 0.125rem 0.25rem;
+}
+
+.wrapper-hidden {
+    display: none;
+}
+
+.p1, .p2 {
+    flex-basis: 50px;
+}
+
+.a1, .a2, .a3 {
+    flex-basis: 200px;
+}
+
+#song_list_header_space {
+    padding: 6px 0px;
+}
+
+
+.login-form {
+    border: 2px solid rgb(7, 137, 76);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
+}
+
+.login-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 32px;
+}
+
+.login-field {
+    width: 200px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.login-button {
+    margin-top: 42px;
+    width: 100px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgb(153, 151, 151);
+}
+
+.login-button:hover {
+    background-color: rgb(15, 121, 15);
+    border: 2px solid rgb(3, 88, 3);
+}
+
+.login-button:active {
+    box-shadow: inset 0 0 15px rgb(16, 85, 196);
+}
+
+.page-all {
+    background-color: rgb(2, 91, 2);
+}
+
+.page-list {
+    border: 2px solid rgb(1, 122, 1);
+    display: flex;
+    min-width: 35px;
+    justify-content: center;
+    margin-top: 10px;
+    background-color: rgb(8, 109, 8);
+}
+
+.page-link {
+    font-size: 16px;
+    padding: 4px;
+    text-decoration: none;
+}
+
+.page-list:hover {
+    background-color: rgb(2, 136, 2);
+}
+
+.already {
+    text-align: center;
+}

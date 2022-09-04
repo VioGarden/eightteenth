@@ -1,0 +1,112 @@
+{% extends 'search/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <div id="song_list_header_space">
+
+    </div>
+    <div class="single main-header">
+        <h4>
+            Song Name
+        </h4>
+        <h4>
+            Artist
+        </h4>
+        <h4>
+            Show
+        </h4>
+    </div>
+    <ul id="results" class="result">
+    </ul>
+    
+    {% for data in aot_page %}
+
+    <li class="content">
+        <div onclick=show(this)>
+            <div class="single main-results">
+                <h4>
+                    {{ data.song }}
+                </h4>
+                <h4>
+                    {{ data.artist }}
+                </h4>
+                <h4>
+                    {{ data.show }}
+                </h4>
+            </div>
+        </div>
+        <div class="wrapper wrapper-hidden" id="wrapper">
+            <p class="p1">
+                {{ data.annid }}
+            </p>
+            <p class="p2">
+                {{ data.opedin }}
+            </p>
+            <a href=""class="a1" target="_blank">
+                {{ data.mp3 }}
+            </a>
+            <a href="" class="a2" target="_blank">
+                {{ data.h720 }}
+            </a>
+            <a href="" class="a3" target="_blank">
+                {{ data.h480 }}
+            </a>
+        </div>
+    </li>
+
+    {% endfor %}
+    <script src="{% static 'js/fold-quick.js' %}"></script>
+    <nav>
+        <ul class="page-all">
+            {% if aot_page.has_previous %}
+            <li class="page-list">
+                <a href="?page=1" class="page-link">
+                    &laquo First
+                </a>
+            </li>
+            <li class="page-list">
+                <a href="?page={{ aot_page.previous_page_number }}" class="page-link">
+                    Previous
+                </a>
+            </li>
+            {% elif not aot_page.has_previous %}
+            <li class="page-list">
+                <a href="#" class="page-link">
+                    Previous
+                </a>
+            </li>
+            {% endif %}
+            {% for page in aot_page.paginator.page_range %}
+            <li class="page-list">
+                <a href="?page={{ page }}" class="page-link">
+                    {{ page }}
+                </a>
+            </li>
+            {% endfor %}
+            {% if aot_page.has_next %}
+            <li class="page-list">
+                <a href="?page={{aot_page.next_page_number}}" class="page-link">
+                    Next
+                </a>
+            </li>
+            <li class="page-list">
+                <a href="?page={{ aot_page.paginator.num_pages }}" class="page-link">
+                    Last &raquo
+                </a>
+            </li>
+            {% elif not aot_page.has_next %}
+            {% endif %}
+        </ul>
+    </nav>
+    {% endblock %}
+</body>
+</html>
