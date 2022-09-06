@@ -1,6 +1,6 @@
 import time
 from django.shortcuts import render, redirect
-from .models import AotData, MySongUser
+from .models import AotData, UserList, MySongUser
 
 from django.core.paginator import Paginator
 
@@ -12,11 +12,23 @@ def song_list(request):
     p = Paginator(AotData.objects.all(), 15)
     page = request.GET.get('page')
     aot_page = p.get_page(page)
-
-    return render(request, 'search/song_list.html', {
-        'aot_list': aot_list,
-        'aot_page': aot_page,
-    })
+    if request.method == 'POST':
+        song_primary = request.POST.get('song_primary_key')
+        user_primary = request.POST.get('user_primary_key')
+        aotsnippet = AotData.objects.get(pk=int(song_primary))
+        usersnippet = MySongUser.objects.get(pk=int(user_primary))
+        usersnippet.my_songs.add(aotsnippet)
+        return render(request, 'search/song_list.html', {
+            'song_primary': song_primary,
+            'user_primary': user_primary,
+            'aot_list': aot_list,
+            'aot_page': aot_page,
+        })
+    else:
+        return render(request, 'search/song_list.html', {
+                'aot_list': aot_list,
+                'aot_page': aot_page,
+            })
 
 def filter_search(request):
 
@@ -76,10 +88,8 @@ def home(request):
     })
 
 def profile(request):
-    profile_songs = MySongUser.objects.all()
+    profile_songs = UserList.objects.all()
     return render(request, 'search/profile.html', {
         'profile_songs': profile_songs
     })
 
-def add_song(request):
-    pass

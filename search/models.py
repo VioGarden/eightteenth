@@ -24,11 +24,20 @@ class MySongUser(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete = models.CASCADE,
     )
-    my_songs = models.ManyToManyField(AotData, blank=True)
+    my_songs = models.ManyToManyField(AotData, through='UserList')
 
     def __str__(self):
-        return "Username: %s"%(self.MyUser)
+        return "%s"%(self.MyUser)
 
+class UserList(models.Model):
+    ProfileUser = models.ForeignKey(MySongUser, on_delete=models.CASCADE)
+    ProfileSong = models.ForeignKey(AotData, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [['ProfileUser', 'ProfileSong']]
+    
+    def __str__(self):
+        return "%s : %s"%(self.ProfileUser, self.ProfileSong.song)
 
 class SongScore(models.Model):
     #inherit 
