@@ -54,6 +54,23 @@
                 <h4>
                     {{ data.ProfileSong.show }}
                 </h4>
+            <form action="{% url 'profile' %}" method=POST>
+                {% csrf_token %}
+                <input 
+                type="hidden"
+                value="{{ data.ProfileSong.pk }}"
+                name="song_primary_key_remove"
+                >
+                <input 
+                type="hidden"
+                value="{{ user.pk }}"
+                name="user_primary_key_remove"
+                >
+                <input 
+                type="submit" 
+                value="-" 
+                name="submit_remove">
+            </form>
             </div>
         </div>
         <div class="wrapper wrapper-hidden" id="wrapper">

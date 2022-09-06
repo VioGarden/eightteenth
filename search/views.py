@@ -87,9 +87,26 @@ def home(request):
         'name': name
     })
 
+# def profile(request):
+#     profile_songs = UserList.objects.all()
+#     return render(request, 'search/profile.html', {
+#         'profile_songs': profile_songs,
+#     })
+    
 def profile(request):
     profile_songs = UserList.objects.all()
-    return render(request, 'search/profile.html', {
-        'profile_songs': profile_songs
-    })
-
+    if request.method == 'POST':
+        song_primary_remove = request.POST.get('song_primary_key_remove')
+        user_primary_remove = request.POST.get('user_primary_key_remove')
+        aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove))
+        usersnippet_remove = MySongUser.objects.get(pk=int(user_primary_remove))
+        usersnippet_remove.my_songs.remove(aotsnippet_remove)
+        return render(request, 'search/profile.html', {
+            'profile_songs': profile_songs,
+            'song_primary_remove': song_primary_remove,
+            'user_primary_remove': user_primary_remove,
+        })
+    else:
+        return render(request, 'search/profile.html', {
+            'profile_songs': profile_songs,
+        })
