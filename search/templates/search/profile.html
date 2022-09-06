@@ -39,42 +39,42 @@
     <ul id="results" class="result">
     </ul>
 
-    {% for user in profile_songs %}
-    {% for data in user.my_songs.all %}
-
+    {% for data in profile_songs %}
+    
+    {% if data.ProfileUser.MyUser == user %}
     <li class="content">
         <div onclick=show(this)>
             <div class="single main-results">
                 <h4>
-                    {{ data.song }}
+                    {{ data.ProfileSong.song }}
                 </h4>
                 <h4>
-                    {{ data.artist }}
+                    {{ data.ProfileSong.artist }}
                 </h4>
                 <h4>
-                    {{ data.show }}
+                    {{ data.ProfileSong.show }}
                 </h4>
             </div>
         </div>
         <div class="wrapper wrapper-hidden" id="wrapper">
             <p class="p1">
-                {{ data.annid }}
+                {{ data.ProfileSong.annid }}
             </p>
             <p class="p2">
-                {{ data.opedin }}
+                {{ data.ProfileSong.opedin }}
             </p>
             <a href=""class="a1" target="_blank">
-                {{ data.mp3 }}
+                {{ data.ProfileSong.mp3 }}
             </a>
             <a href="" class="a2" target="_blank">
-                {{ data.h720 }}
+                {{ data.ProfileSong.h720 }}
             </a>
             <a href="" class="a3" target="_blank">
-                {{ data.h480 }}
+                {{ data.ProfileSong.h480 }}
             </a>
         </div>
     </li>
-    {% endfor %}
+    {% endif %}
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
     {% endblock %}
