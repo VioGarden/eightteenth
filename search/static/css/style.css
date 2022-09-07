@@ -41,8 +41,8 @@ nav > ul {
 
 
 body {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     background-color: rgb(2, 91, 2);
     font-family: 'Lato', sans-serif;
 }
@@ -249,4 +249,16 @@ a:active {
 
 .already {
     text-align: center;
+}
+
+/* .song-info-div {
+    display: block;
+    position: relative;
+} */
+
+.song-add-div {
+    display: block;
+    position: absolute; 
+    right: 5px;
+    top: 13px;
 }

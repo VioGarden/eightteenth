@@ -42,18 +42,40 @@
     {% for data in profile_songs %}
     
     {% if data.ProfileUser.MyUser == user %}
-    <li class="content">
-        <div onclick=show(this)>
-            <div class="single main-results">
-                <h4>
-                    {{ data.ProfileSong.song }}
-                </h4>
-                <h4>
-                    {{ data.ProfileSong.artist }}
-                </h4>
-                <h4>
-                    {{ data.ProfileSong.show }}
-                </h4>
+    <div style="display: block; position: relative;">
+        <li class="content">
+            <div onclick=show(this)>
+                <div class="single main-results">
+                    <h4>
+                        {{ data.ProfileSong.song }}
+                    </h4>
+                    <h4>
+                        {{ data.ProfileSong.artist }}
+                    </h4>
+                    <h4>
+                        {{ data.ProfileSong.show }}
+                    </h4>
+                </div>
+            </div>
+            <div class="wrapper wrapper-hidden" id="wrapper">
+                <p class="p1">
+                    {{ data.ProfileSong.annid }}
+                </p>
+                <p class="p2">
+                    {{ data.ProfileSong.opedin }}
+                </p>
+                <a href=""class="a1" target="_blank">
+                    {{ data.ProfileSong.mp3 }}
+                </a>
+                <a href="" class="a2" target="_blank">
+                    {{ data.ProfileSong.h720 }}
+                </a>
+                <a href="" class="a3" target="_blank">
+                    {{ data.ProfileSong.h480 }}
+                </a>
+            </div>
+        </li>
+        <div style="position: absolute; right:5px; top: 13px;">
             <form action="{% url 'profile' %}" method=POST>
                 {% csrf_token %}
                 <input 
@@ -71,26 +93,8 @@
                 value="-" 
                 name="submit_remove">
             </form>
-            </div>
         </div>
-        <div class="wrapper wrapper-hidden" id="wrapper">
-            <p class="p1">
-                {{ data.ProfileSong.annid }}
-            </p>
-            <p class="p2">
-                {{ data.ProfileSong.opedin }}
-            </p>
-            <a href=""class="a1" target="_blank">
-                {{ data.ProfileSong.mp3 }}
-            </a>
-            <a href="" class="a2" target="_blank">
-                {{ data.ProfileSong.h720 }}
-            </a>
-            <a href="" class="a3" target="_blank">
-                {{ data.ProfileSong.h480 }}
-            </a>
-        </div>
-    </li>
+    </div>
     {% endif %}
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
