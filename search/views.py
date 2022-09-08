@@ -18,16 +18,26 @@ def song_list(request):
         aotsnippet = AotData.objects.get(pk=int(song_primary))
         usersnippet = MySongUser.objects.get(pk=int(user_primary))
         usersnippet.my_songs.add(aotsnippet)
+        user_song_list = UserList.objects.all()
+        user_song_pk_set = set()
+        for i in range(len(user_song_list)):
+            user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
         return render(request, 'search/song_list.html', {
             'song_primary': song_primary,
             'user_primary': user_primary,
             'aot_list': aot_list,
             'aot_page': aot_page,
+            'user_song_pk_set': user_song_pk_set,
         })
     else:
+        user_song_list = UserList.objects.all()
+        user_song_pk_set = set()
+        for i in range(len(user_song_list)):
+            user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
         return render(request, 'search/song_list.html', {
                 'aot_list': aot_list,
                 'aot_page': aot_page,
+                'user_song_pk_set': user_song_pk_set,
             })
 
 def filter_search(request):

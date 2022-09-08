@@ -63,6 +63,7 @@
             </div>
         </li>
         {% if user.is_authenticated %}
+        {% if data.pk not in user_song_pk_set %}
             <div style="position: absolute; right:5px; top: 13px;">
                 <form action="{% url 'song-list' %}" method=POST>
                     {% csrf_token %}
@@ -82,6 +83,7 @@
                     name="submit_add">  
                 </form>
             </div>
+        {% endif %}
         {% endif %}
     </div>
 
