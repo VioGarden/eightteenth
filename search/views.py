@@ -63,45 +63,11 @@ def filter_search(request):
         # 'aot_page': aot_page,
     })
     
-
-def quick_search(request):
-    start_time = time.time()
-    if request.method == 'POST':
-        search_type = request.POST['search-type']
-        searched = request.POST['searched']
-        if len(searched) == 0:
-            return render(request, 'search/quick_search.html', {})
-        if search_type == "song":
-            data_query = AotData.objects.filter(song__contains=searched)
-        elif search_type == "artist":
-            data_query = AotData.objects.filter(artist__contains=searched)
-        else:
-            data_query = AotData.objects.filter(show__contains=searched)
-        count = len(data_query)
-        total_time = time.time() - start_time
-        total_time = round(total_time, 5)
-        return render(request, 'search/quick_search.html', {
-            'searched': searched,
-            'data': data_query,
-            'search_type': search_type,
-            'count': count,
-            'total_time': total_time,
-        })
-    else:
-        return render(request, 'search/quick_search.html', {
-        })
-
 def home(request):
     name = "violet"
     return render(request, 'search/home.html', {
         'name': name
     })
-
-# def profile(request):
-#     profile_songs = UserList.objects.all()
-#     return render(request, 'search/profile.html', {
-#         'profile_songs': profile_songs,
-#     })
     
 def profile(request):
     profile_songs = UserList.objects.all()
@@ -119,4 +85,48 @@ def profile(request):
     else:
         return render(request, 'search/profile.html', {
             'profile_songs': profile_songs,
+        })
+
+def quick_search(request):
+    start_time = time.time()
+    if request.method == 'POST':
+        user_song_list = UserList.objects.all()
+        user_song_pk_set = set()
+        for i in range(len(user_song_list)):
+            user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
+        if 'searched' in request.POST:
+            search_type = request.POST['search-type']
+            searched = request.POST['searched']
+            if len(searched) == 0:
+                return render(request, 'search/quick_search.html', {})
+            if search_type == "song":
+                data_query = AotData.objects.filter(song__contains=searched)
+            elif search_type == "artist":
+                data_query = AotData.objects.filter(artist__contains=searched)
+            else:
+                data_query = AotData.objects.filter(show__contains=searched)
+            count = len(data_query)
+            total_time = time.time() - start_time
+            total_time = round(total_time, 5)
+            return render(request, 'search/quick_search.html', {
+                'searched': searched,
+                'data_query': data_query,
+                'search_type': search_type,
+                'count': count,
+                'total_time': total_time,
+                'user_song_pk_set': user_song_pk_set,
+            })
+        else: 
+            song_primary = request.POST.get('song_primary_key')
+            user_primary = request.POST.get('user_primary_key')
+            aotsnippet = AotData.objects.get(pk=int(song_primary))
+            usersnippet = MySongUser.objects.get(pk=int(user_primary))
+            usersnippet.my_songs.add(aotsnippet)
+            return render(request, 'search/quick_search.html', {
+                'song_primary': song_primary,
+                'user_primary': user_primary,
+                'user_song_pk_set': user_song_pk_set,
+            })
+    else:
+        return render(request, 'search/quick_search.html', {
         })
