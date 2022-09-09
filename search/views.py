@@ -41,13 +41,32 @@ def song_list(request):
             })
 
 def filter_search(request):
-
+    start_time_filter = time.time()
     aot_data = AotData.objects.all()
     aot_length = len(aot_data)
 
     myFilter = OrderFilter(request.GET, queryset=aot_data)
 
     aot_data = myFilter.qs
+
+    user_song_list = UserList.objects.all()
+    user_song_pk_set = set()
+    for i in range(len(user_song_list)):
+        user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
+    
+    if request.method == 'POST':
+        song_primary = request.POST.get('song_primary_key')
+        user_primary = request.POST.get('user_primary_key')
+        aotsnippet = AotData.objects.get(pk=int(song_primary))
+        usersnippet = MySongUser.objects.get(pk=int(user_primary))
+        usersnippet.my_songs.add(aotsnippet)
+        return render(request, 'search/filter_search.html', {
+            'myFilter': myFilter,
+            'song_primary': song_primary,
+            'user_primary': user_primary,
+            'user_song_pk_set': user_song_pk_set,
+        })
+
     if len(aot_data) == aot_length: #so nothing shows up when nothing is searched
         return render(request, 'search/filter_search.html', {
             'myFilter': myFilter,
@@ -56,10 +75,16 @@ def filter_search(request):
     # p = Paginator(aot_data, 10)
     # page = request.GET.get('page')
     # aot_page = p.get_page(page)
-
+    total_time = time.time() - start_time_filter
+    total_time = round(total_time, 5)
+    count = len(aot_data)
+    #count = one/1 scenario
     return render(request, 'search/filter_search.html', {
         'myFilter': myFilter,
         'aot_data': aot_data,
+        'total_time': total_time,
+        'count': count,
+        'user_song_pk_set': user_song_pk_set,
         # 'aot_page': aot_page,
     })
     
@@ -70,6 +95,7 @@ def home(request):
     })
     
 def profile(request):
+    #something to search profile songs
     profile_songs = UserList.objects.all()
     if request.method == 'POST':
         song_primary_remove = request.POST.get('song_primary_key_remove')
