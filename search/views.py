@@ -48,7 +48,7 @@ def filter_search(request):
     myFilter = OrderFilter(request.GET, queryset=aot_data)
 
     aot_data = myFilter.qs
-    if len(aot_data) == aot_length:
+    if len(aot_data) == aot_length: #so nothing shows up when nothing is searched
         return render(request, 'search/filter_search.html', {
             'myFilter': myFilter,
         })
