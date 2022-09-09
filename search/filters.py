@@ -6,27 +6,27 @@ from .models import *
 
 class OrderFilter(django_filters.FilterSet):
     song = CharFilter(
-        widget=TextInput(attrs={'placeholder': 'song'}),
+        widget=TextInput(attrs={'placeholder': 'song', 'class': 'filter-song'}),
         label='',
         lookup_expr='icontains',
         )
     artist = CharFilter(
-        widget=TextInput(attrs={'placeholder': 'artist'}),
+        widget=TextInput(attrs={'placeholder': 'artist', 'class': 'filter-artist'}),
         label='',
         lookup_expr='icontains',
         )
     annid = CharFilter(
-        widget=TextInput(attrs={'placeholder': 'annid'}),
+        widget=TextInput(attrs={'placeholder': 'annid', 'class': 'filter-annid'}),
         label='',
         lookup_expr='icontains',
         )
     show = CharFilter(
-        widget=TextInput(attrs={'placeholder': 'show'}),
+        widget=TextInput(attrs={'placeholder': 'show', 'class': 'filter-show'}),
         label='',
         lookup_expr='icontains',
         )
     opedin = CharFilter(
-        widget=TextInput(attrs={'placeholder': 'opedin'}),
+        widget=TextInput(attrs={'placeholder': 'opedin', 'class': 'filter-opedin'}),
         label='',
         lookup_expr='icontains',
         )

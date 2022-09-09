@@ -11,13 +11,24 @@
 </head>
 <body>
     {% block content %}
-        <form>
+        <form class="filter-form">
         {{ myFilter.form }}
-            <input type="submit">
+            <input type="submit" class="filter-button">
         </form>
-        <h1>Bios</h1>
+        <div class="single main-header">
+            <h4>
+                Song Name
+            </h4>
+            <h4>
+                Artist
+            </h4>
+            <h4>
+                Show
+            </h4>
+        </div>
+        <ul id="results" class="result">
+        </ul>
         {% for data in aot_data %}
-        <ul>
         <li class="content">
             <div onclick=show(this)>
                 <div class="single main-results">
@@ -50,7 +61,6 @@
                 </a>
             </div>
         </li>
-    </ul>
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
     {% endblock content %}
