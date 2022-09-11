@@ -32,6 +32,10 @@
             class="quick-button"
             type="submit" 
             value="Submit">
+            <input 
+            type="hidden"
+            value="{{ user.pk }}"
+            name="quick_search_pk">
         </form>
         {% if searched %}
             <p>"{{ searched }}" returned {{ count }} results in {{ total_time }} seconds</p>
@@ -87,7 +91,7 @@
             </div>
         </li>
         {% if user.is_authenticated %}
-        {% if data.pk not in user_song_pk_set %}
+        {% if data.pk not in user_song_already_set %}
             <div class="song-add-div">
                 <form action="{% url 'quick-search' %}" method=POST>
                     {% csrf_token %}
@@ -101,6 +105,10 @@
                     value="{{ user.pk }}"
                     name="user_primary_key"
                     >
+                    <input 
+                    type="hidden"
+                    value="{{ user.pk }}"
+                    name="quick_search_pk">
                     <input 
                     type="submit" 
                     value="+" 

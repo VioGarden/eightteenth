@@ -18,9 +18,11 @@ def song_list(request):
         aotsnippet = AotData.objects.get(pk=int(song_primary))
         usersnippet = MySongUser.objects.get(pk=int(user_primary))
         usersnippet.my_songs.add(aotsnippet)
+        user_primary = request.POST.get('quick_search_pk')
         user_song_list = UserList.objects.all()
         user_song_pk_set = set()
         for i in range(len(user_song_list)):
+            # if user_song_list[i].ProfileUser.pk == int(user_primary):
             user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
         return render(request, 'search/song_list.html', {
             'song_primary': song_primary,
@@ -30,6 +32,7 @@ def song_list(request):
             'user_song_pk_set': user_song_pk_set,
         })
     else:
+        #get primary key on window load
         user_song_list = UserList.objects.all()
         user_song_pk_set = set()
         for i in range(len(user_song_list)):
@@ -116,13 +119,10 @@ def profile(request):
 def quick_search(request):
     start_time = time.time()
     if request.method == 'POST':
-        user_song_list = UserList.objects.all()
-        user_song_pk_set = set()
-        for i in range(len(user_song_list)):
-            user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
         if 'searched' in request.POST:
             search_type = request.POST['search-type']
             searched = request.POST['searched']
+            user_pk = request.POST.get('quick_search_pk')
             if len(searched) == 0:
                 return render(request, 'search/quick_search.html', {})
             if search_type == "song":
@@ -132,6 +132,13 @@ def quick_search(request):
             else:
                 data_query = AotData.objects.filter(show__contains=searched)
             count = len(data_query)
+            user_song_list = UserList.objects.all()
+            user_primary = request.POST.get('quick_search_pk')
+            user_song_already_set = set()
+            #for loop below increases time by 10x
+            for i in range(len(user_song_list)):
+                if user_song_list[i].ProfileUser.pk == int(user_primary):
+                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
             total_time = time.time() - start_time
             total_time = round(total_time, 5)
             return render(request, 'search/quick_search.html', {
@@ -140,7 +147,7 @@ def quick_search(request):
                 'search_type': search_type,
                 'count': count,
                 'total_time': total_time,
-                'user_song_pk_set': user_song_pk_set,
+                'user_song_already_set': user_song_already_set,
             })
         else: 
             song_primary = request.POST.get('song_primary_key')
@@ -148,6 +155,11 @@ def quick_search(request):
             aotsnippet = AotData.objects.get(pk=int(song_primary))
             usersnippet = MySongUser.objects.get(pk=int(user_primary))
             usersnippet.my_songs.add(aotsnippet)
+            user_song_list = UserList.objects.all()
+            user_song_pk_set = set()
+            for i in range(len(user_song_list)):
+                # if user_song_list[i].ProfileUser.pk != user_pk:
+                user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
             return render(request, 'search/quick_search.html', {
                 'song_primary': song_primary,
                 'user_primary': user_primary,
