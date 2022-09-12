@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class AotData(models.Model):
     song = models.CharField(max_length=200)
@@ -29,9 +30,18 @@ class MySongUser(models.Model):
     def __str__(self):
         return "%s"%(self.MyUser)
 
+class SongScore(models.Model):
+    PossibleScore = models.IntegerField(
+        blank=True, 
+        null=True, 
+        validators=[MaxValueValidator(10), MinValueValidator(1)])
+    def __str__(self):
+        return "%s"%(self.PossibleScore)
+
 class UserList(models.Model):
     ProfileUser = models.ForeignKey(MySongUser, on_delete=models.CASCADE)
     ProfileSong = models.ForeignKey(AotData, on_delete=models.CASCADE)
+    # ProfileScore = models.ForeignKey(SongScore, on_delete=models.CASCADE, default=None, blank=True)
 
     class Meta:
         unique_together = [['ProfileUser', 'ProfileSong']]
@@ -39,7 +49,6 @@ class UserList(models.Model):
     def __str__(self):
         return "%s : %s"%(self.ProfileUser, self.ProfileSong.song)
 
-class SongScore(models.Model):
-    #inherit 
-    pass
+
+    
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AotData, MySongUser, UserList
+from .models import AotData, MySongUser, UserList, SongScore
 
 @admin.register(AotData)
 class AotDataAdmin(admin.ModelAdmin):
@@ -14,5 +14,10 @@ class MySongUserAdmin(admin.ModelAdmin):
 @admin.register(UserList)
 class UserListAdmin(admin.ModelAdmin):
     display = 'ProfileUser'
+    ordering = ('pk',)
+
+@admin.register(SongScore)
+class SongScoreAdmin(admin.ModelAdmin):
+    display = 'PossibleScore'
     ordering = ('pk',)
     

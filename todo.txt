@@ -1,8 +1,17 @@
+-immediate stuff to do 
+
+1) User score
+2) Page/Form no reset/refresh upon search
+3) Profile Ordering songs
+4) Customize Home/Profile
+5) Parse and work with bigger data
+
+
+
+
 -Customize Home
     -top songs
     -guide to use
--Dropdown for quick-search, use javascript
--Filter search
 -Pagination quick search
 -(Pagination css)
 -Register css
