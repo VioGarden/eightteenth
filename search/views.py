@@ -143,7 +143,22 @@ def profile(request):
     #something to search profile songs
     profile_songs = UserList.objects.all()
     if request.method == 'POST':
-        
+        if 'song_score' in request.POST:
+            user_pk = request.user.pk
+            song_pk_score = request.POST.get('song_primary_key_score')
+            song_score = request.POST.get('song_score')
+            for i in range(len(profile_songs)):
+                if (profile_songs[i].ProfileUser.pk == int(user_pk) 
+                and profile_songs[i].ProfileSong.pk == int(song_pk_score)):
+                    score_change_song = profile_songs[i]
+                    score_change_song.ProfileScore = int(song_score)
+                    score_change_song.save(update_fields=['ProfileScore'])
+                    return render(request, 'search/profile.html', {
+                        'profile_songs': profile_songs,
+                    })
+            return render(request, 'search/profile.html', {
+                'profile_songs': profile_songs,
+            })
         song_primary_remove = request.POST.get('song_primary_key_remove')
         user_primary_remove = request.POST.get('user_primary_key_remove')
         aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove))

@@ -95,7 +95,38 @@
                 name="submit_remove">
             </form>
         </div>
+        <div class="wrapper-score">
+            <div class="profile-form">
+                <form action="{% url 'profile' %}" method=POST>
+                    {% csrf_token %}
+                    <input 
+                    type="hidden"
+                    value="{{ data.ProfileSong.pk }}"
+                    name="song_primary_key_score"
+                    >
+                    <select name="song_score" onchange="this.form.submit()">
+                        <option value="--">--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </form>
+            </div> 
+            <div class="profile-score">
+                <center>
+                    <p class="data-profile-score">{{ data.ProfileScore }}</p>
+                </center>
+            </div>
+        </div>
     </div>
+
     {% endif %}
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>

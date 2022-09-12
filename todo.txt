@@ -1,6 +1,6 @@
 -immediate stuff to do 
 
-1) User score
+1) User score ** done
 2) Page/Form no reset/refresh upon search
 3) Profile Ordering songs/Search
 4) Customize Home/Profile

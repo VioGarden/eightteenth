@@ -32,6 +32,7 @@ class MySongUser(models.Model):
 class UserList(models.Model):
     ProfileUser = models.ForeignKey(MySongUser, on_delete=models.CASCADE)
     ProfileSong = models.ForeignKey(AotData, on_delete=models.CASCADE)
+    ProfileScore = models.IntegerField(blank=True, null=True, unique=False)
 
     class Meta:
         unique_together = [['ProfileUser', 'ProfileSong']]

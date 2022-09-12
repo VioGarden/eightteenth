@@ -338,3 +338,36 @@ a:active {
 .quick-button:active {
     box-shadow: inset 0px 0px 100px rgb(154, 187, 7)
 }
+
+.profile-form {
+    display: block;
+    position: absolute;
+    top: 13px;
+    right: 30px;
+    width: 40px;
+}
+
+.profile-score {
+    background-color:rgb(8, 109, 8);
+    display: block;
+    position: absolute;
+    top: 13px;
+    right: 30px;
+    width: 42px;
+    height: 24px;
+} 
+
+.profile-score:hover {
+    border: 2px solid orange;
+    display: none;
+    position: absolute;
+    top: 13px;
+    right: 30px;
+    width: 40px;
+} 
+
+.data-profile-score {
+    display: block;
+}
+
+
