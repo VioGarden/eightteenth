@@ -71,7 +71,7 @@
         </li>
         <div class="song-add-div">
             {% if user.is_authenticated %}
-            {% if data.pk not in user_song_pk_set %}
+            {% if data.pk not in user_song_already_set %}
                 <form action="{% url 'filter-search' %}" method=POST>
                     {% csrf_token %}
                     <input 
