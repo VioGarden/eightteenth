@@ -11,13 +11,32 @@
 </head>
 <body>
     {% block content %}
-        <form>
-            {{ myFilter.form.as_p }}
-            <input type="submit">
+        <form class="filter-form">
+        {{ myFilter.form }}
+            <input type="submit" class="filter-button">
         </form>
-        <h1>Bios</h1>
+        {% if total_time  %}
+        {% if count == 1 %}
+            <p>returned {{ count }} result in {{ total_time }} seconds</p>
+        {% else %}
+            <p>returned {{ count }} results in {{ total_time }} seconds</p>
+        {% endif %}
+        {% endif %}
+        <div class="single main-header">
+            <h4>
+                Song Name
+            </h4>
+            <h4>
+                Artist
+            </h4>
+            <h4>
+                Show
+            </h4>
+        </div>
+        <ul id="results" class="result">
+        </ul>
         {% for data in aot_data %}
-        <ul>
+        <div class="song-info-div">
         <li class="content">
             <div onclick=show(this)>
                 <div class="single main-results">
@@ -50,7 +69,30 @@
                 </a>
             </div>
         </li>
-    </ul>
+        <div class="song-add-div">
+            {% if user.is_authenticated %}
+            {% if data.pk not in user_song_already_set %}
+                <form action="{% url 'filter-search' %}" method=POST>
+                    {% csrf_token %}
+                    <input 
+                    type="hidden"
+                    value="{{ data.pk }}"
+                    name="song_primary_key"
+                    >
+                    <input 
+                    type="hidden"
+                    value="{{ user.pk }}"
+                    name="user_primary_key"
+                    >
+                    <input 
+                    type="submit" 
+                    value="+" 
+                    name="submit_add">  
+                </form>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
     {% endblock content %}

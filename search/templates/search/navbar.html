@@ -13,10 +13,10 @@
     </li>
     {% if user.is_authenticated %}
     <li>
-        <a href="{% url 'logout-user' %}" class="nav-item">Log out</a>
+        <a href="{% url 'profile' %}" class="nav-item">Profile</a>
     </li>
     <li>
-        <a href="{% url 'profile' %}" class="nav-item">Profile</a>
+        <a href="{% url 'logout-user' %}" class="nav-item">Log out</a>
     </li>
     {% else %}
     <li>

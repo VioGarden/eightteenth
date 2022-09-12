@@ -12,9 +12,9 @@
 <body>
     {% block content %}
     <div>
-        <form action="{% url 'quick-search'%}" method=POST class="search">
+        <form action="{% url 'quick-search'%}" method=POST class="search quick-form">
             {% csrf_token %}
-            <div class="search-option">
+            <div class="search-option quick-option">
                 <select class="search-option-select" name="search-type">
                     <option value="song">Song</option>
                     <option value="artist">Artist</option>
@@ -24,14 +24,18 @@
             <input 
             type="search" 
             id="search"
-            class="search-song"
-            placeholder="search song"
+            class="quick-search"
+            placeholder="search"
             name="searched"
             />
             <input 
-            class="search-button"
+            class="quick-button"
             type="submit" 
             value="Submit">
+            <input 
+            type="hidden"
+            value="{{ user.pk }}"
+            name="quick_search_pk">
         </form>
         {% if searched %}
             <p>"{{ searched }}" returned {{ count }} results in {{ total_time }} seconds</p>
@@ -52,39 +56,68 @@
     <ul id="results" class="result">
     </ul>
 
-    {% for data in data %}
-    <li class="content">
-        <div onclick=show(this)>
-            <div class="single main-results">
-                <h4>
-                    {{ data.song }}
-                </h4>
-                <h4>
-                    {{ data.artist }}
-                </h4>
-                <h4>
-                    {{ data.show }}
-                </h4>
+    {% for data in data_query %}
+    <div class="song-info-div">
+        <li class="content">
+            <div onclick=show(this)>
+                <div class="single main-results">
+                    <h4>
+                        {{ data.song }}
+                    </h4>
+                    <h4>
+                        {{ data.artist }}
+                    </h4>
+                    <h4>
+                        {{ data.show }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="wrapper wrapper-hidden" id="wrapper">
-            <p class="p1">
-                {{ data.annid }}
-            </p>
-            <p class="p2">
-                {{ data.opedin }}
-            </p>
-            <a href=""class="a1" target="_blank">
-                {{ data.mp3 }}
-            </a>
-            <a href="" class="a2" target="_blank">
-                {{ data.h720 }}
-            </a>
-            <a href="" class="a3" target="_blank">
-                {{ data.h480 }}
-            </a>
-        </div>
-    </li>
+            <div class="wrapper wrapper-hidden" id="wrapper">
+                <p class="p1">
+                    {{ data.annid }}
+                </p>
+                <p class="p2">
+                    {{ data.opedin }}
+                </p>
+                <a href=""class="a1" target="_blank">
+                    {{ data.mp3 }}
+                </a>
+                <a href="" class="a2" target="_blank">
+                    {{ data.h720 }}
+                </a>
+                <a href="" class="a3" target="_blank">
+                    {{ data.h480 }}
+                </a>
+            </div>
+        </li>
+        {% if user.is_authenticated %}
+        {% if data.pk not in user_song_already_set %}
+            <div class="song-add-div">
+                <form action="{% url 'quick-search' %}" method=POST>
+                    {% csrf_token %}
+                    <input 
+                    type="hidden"
+                    value="{{ data.pk }}"
+                    name="song_primary_key"
+                    >
+                    <input 
+                    type="hidden"
+                    value="{{ user.pk }}"
+                    name="user_primary_key"
+                    >
+                    <input 
+                    type="hidden"
+                    value="{{ user.pk }}"
+                    name="quick_search_pk">
+                    <input 
+                    type="submit" 
+                    value="+" 
+                    name="submit_add">  
+                </form>
+            </div>
+        {% endif %}
+        {% endif %}
+    </div>
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
     {% endblock %}
