@@ -11,6 +11,7 @@
 </head>
 <body>
     {% block content %}
+    {% if user.is_authenticated %}
     <div>
         <h1>Profile</h1>
         <p>Hello {{ user }}</p>
@@ -42,7 +43,7 @@
     {% for data in profile_songs %}
     
     {% if data.ProfileUser.MyUser == user %}
-    <div style="display: block; position: relative;">
+    <div class="song-info-div">
         <li class="content">
             <div onclick=show(this)>
                 <div class="single main-results">
@@ -75,7 +76,7 @@
                 </a>
             </div>
         </li>
-        <div style="position: absolute; right:5px; top: 13px;">
+        <div class="song-add-div">
             <form action="{% url 'profile' %}" method=POST>
                 {% csrf_token %}
                 <input 
@@ -98,6 +99,14 @@
     {% endif %}
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
+    {% else %}
+    <center>
+        <h3 style="margin-top: 2rem;">You are not logged in
+            <br>
+            Please Register or Log in to see your profile
+        </h3>
+    </center>
+    {% endif %}
     {% endblock %}
 </body>
 </html>

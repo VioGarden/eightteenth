@@ -2,9 +2,12 @@
 
 1) User score
 2) Page/Form no reset/refresh upon search
-3) Profile Ordering songs
+3) Profile Ordering songs/Search
 4) Customize Home/Profile
 5) Parse and work with bigger data
+6) Media Query
+7) Comments
+8) Update admin
 
 
 
@@ -38,3 +41,49 @@ extra stuff
 -email authentication
 -ranked information
 -search result per page option
+
+    #     if 'score_submit' in request.POST:
+    #         # get song pk in profile
+    #         song_primary_pk = request.POST.get('song_primary_key_score')
+    #         # get score
+    #         song_score= request.POST['PossibleScore']
+    #         # get user pk
+    #         user_pk = request.user.pk
+    #         # find and get pk of song in UserList
+    #         user_songs = UserList.objects.all()
+    #         for i in range(len(user_songs)):
+    #             if (user_songs[i].ProfileUser.pk == int(user_pk) 
+    #             & user_songs[i].ProfileSong.pk == int(song_primary_pk)):
+    #                 ss = SongScore.objects.get(pk=song_score)
+    #                 user_songs[i].ProfileScore.PossibleScore.update(ss)
+    #         return render(request, 'search/profile.html', {
+    #             'profile_songs': profile_songs,
+    #             'song_primary_remove': song_primary_remove,
+    #             'user_primary_remove': user_primary_remove,
+    #         })
+
+    {% comment %} <div>
+            {{ data.ProfileSong.pk }}
+            {{ data.ProfileSong }}
+            <form action="{% url 'profile' %}" method=POST>
+                {% csrf_token %}
+                <input 
+                type="hidden"
+                value="{{ data.ProfileSong.pk }}"
+                name="song_primary_key_score"
+                >
+                <select name="score_select" onchange="this.form.submit()">
+                    <option value="--">--</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </form>
+        </div> {% endcomment %}

@@ -143,6 +143,7 @@ def profile(request):
     #something to search profile songs
     profile_songs = UserList.objects.all()
     if request.method == 'POST':
+        
         song_primary_remove = request.POST.get('song_primary_key_remove')
         user_primary_remove = request.POST.get('user_primary_key_remove')
         aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove))
