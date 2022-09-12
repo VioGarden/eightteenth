@@ -27,7 +27,10 @@
     </div>
     <ul id="results" class="result">
     </ul>
-    
+    {% if total_time  %}
+        <p>returned all songs in {{ total_time }} seconds</p>
+    {% endif %}
+
     {% for data in aot_page %}
     <div class="song-info-div">
         <li class="content">
@@ -63,7 +66,7 @@
             </div>
         </li>
         {% if user.is_authenticated %}
-        {% if data.pk not in user_song_pk_set %}
+        {% if data.pk not in user_song_already_set %}
             <div class="song-add-div">
                 <form action="{% url 'song-list' %}" method=POST>
                     {% csrf_token %}
@@ -86,7 +89,6 @@
         {% endif %}
         {% endif %}
     </div>
-
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
     <nav>
