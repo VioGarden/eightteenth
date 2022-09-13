@@ -12,8 +12,8 @@ UserList : Database of added songs (list of user-song matches)
 """
 
 def song_list(request):
+    """base page of all songs"""
     start_time_filter = time.time() # timing function
-    aot_list = AotData.objects.all() # every song grabbed
     p = Paginator(AotData.objects.all(), 15) # paginates data
     page = request.GET.get('page')
     aot_page = p.get_page(page)
@@ -37,99 +37,88 @@ def song_list(request):
         total_time = time.time() - start_time_filter # end timer
         total_time = round(total_time, 5)
         return render(request, 'search/song_list.html', {
-            'aot_page': aot_page,
-            'user_song_already_set': user_song_already_set,
-            'total_time': total_time,
+            'aot_page': aot_page, # list of songs
+            'user_song_already_set': user_song_already_set, # pk set of added elements
+            'total_time': total_time, # total time
         })
-    elif request.user.is_authenticated:
-        #get primary key on window load
-        current_user = request.user
-        user_song_list = UserList.objects.all()
-        user_song_already_set = set()
-        #for loop below increases time by 10x
-        for i in range(len(user_song_list)):
-            if user_song_list[i].ProfileUser.pk == int(current_user.pk):
+    elif request.user.is_authenticated: # if user is logged in, clicks onto page
+        current_user = request.user # current user
+        user_song_list = UserList.objects.all() # list of all songs correlated to user
+        user_song_already_set = set() # empty set
+        for i in range(len(user_song_list)): # looping over all user songs
+            # if the pk of the user song matches current user
+            if user_song_list[i].ProfileUser.pk == int(current_user.pk): 
+                # pk of that song added to set
                 user_song_already_set.add(user_song_list[i].ProfileSong.pk)
-        total_time = time.time() - start_time_filter
+        total_time = time.time() - start_time_filter # end timer
         total_time = round(total_time, 5)
         return render(request, 'search/song_list.html', {
-                'aot_list': aot_list,
-                'aot_page': aot_page,
-                'user_song_already_set': user_song_already_set,
-                'total_time': total_time,
+                'aot_page': aot_page, # list of songs
+                'user_song_already_set': user_song_already_set, # set of pk of added songs
+                'total_time': total_time, # total time
             })
-    else:
-        total_time = time.time() - start_time_filter
+    else: # if user not authenticated
+        total_time = time.time() - start_time_filter # end timer
         total_time = round(total_time, 5)
         return render(request, 'search/song_list.html', {
-            'aot_page': aot_page,
-            'total_time': total_time,
+            'aot_page': aot_page, # list of songs
+            'total_time': total_time, # total time
         })
 
 def filter_search(request):
-    start_time_filter = time.time()
-    aot_data = AotData.objects.all()
-    aot_length = len(aot_data)
-
-    myFilter = OrderFilter(request.GET, queryset=aot_data)
-
-    aot_data = myFilter.qs
-
-    user_song_list = UserList.objects.all()
-    user_song_pk_set = set()
-    for i in range(len(user_song_list)):
-        user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
-    
-    if request.method == 'POST':
-        song_primary = request.POST.get('song_primary_key')
-        user_primary = request.POST.get('user_primary_key')
-        aotsnippet = AotData.objects.get(pk=int(song_primary))
-        usersnippet = MySongUser.objects.get(pk=int(user_primary))
-        usersnippet.my_songs.add(aotsnippet)
-        user_song_already_set = set()
-        #for loop below increases time by 10x
+    """filtered search in database"""
+    start_time_filter = time.time() # begin timer
+    aot_data = AotData.objects.all() # grab every song in database
+    aot_length = len(aot_data) # size of database
+    # from search/filters.py, search system
+    myFilter = OrderFilter(request.GET, queryset=aot_data) 
+    aot_data = myFilter.qs # query search
+    user_song_list = UserList.objects.all() # list of all songs in userlist
+    if request.method == 'POST': # if method is post, add song button clicked
+        song_primary = request.POST.get('song_primary_key') # get song pk
+        user_primary = request.POST.get('user_primary_key') # get user pk
+        aotsnippet = AotData.objects.get(pk=int(song_primary)) # pull song from database
+        usersnippet = MySongUser.objects.get(pk=int(user_primary)) # pull user from database
+        usersnippet.my_songs.add(aotsnippet) # add to user list database
+        user_song_already_set = set() # create empty set
         for i in range(len(user_song_list)):
+            # if the pk of the user song matches current user
             if user_song_list[i].ProfileUser.pk == int(user_primary):
+                # pk of that song added to set
                 user_song_already_set.add(user_song_list[i].ProfileSong.pk)
         return render(request, 'search/filter_search.html', {
-            'myFilter': myFilter,
-            'song_primary': song_primary,
-            'user_primary': user_primary,
-            'user_song_already_set': user_song_already_set,
+            'myFilter': myFilter, # filter form
+            'user_song_already_set': user_song_already_set, # set of user list song pk
         })
-
     if len(aot_data) == aot_length: #so nothing shows up when nothing is searched
         return render(request, 'search/filter_search.html', {
-            'myFilter': myFilter,
+            'myFilter': myFilter, # filter form
         })
-
-    # p = Paginator(aot_data, 10)
-    # page = request.GET.get('page')
-    # aot_page = p.get_page(page)
-    total_time = time.time() - start_time_filter
-    total_time = round(total_time, 5)
-    count = len(aot_data)
-    if request.user.is_authenticated:
-        #count = one/1 scenario
-        user_song_already_set = set()
-        #for loop below increases time by 10x
+    count = len(aot_data) # number of songs returned, used for search info
+    if request.user.is_authenticated: # logged in page reload
+        user_song_already_set = set() # create empty set
         for i in range(len(user_song_list)):
+            # if the pk of the user song matches current user
             if user_song_list[i].ProfileUser.pk == int(request.user.pk):
+                    # pk of that song added to set
                     user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+        total_time = time.time() - start_time_filter # timer
+        total_time = round(total_time, 5)
         return render(request, 'search/filter_search.html', {
-            'myFilter': myFilter,
-            'aot_data': aot_data,
-            'total_time': total_time,
-            'count': count,
-            'user_song_already_set': user_song_already_set,
-            # 'aot_page': aot_page,
+            'myFilter': myFilter, # filter search bar
+            'aot_data': aot_data, # list of songs
+            'total_time': total_time, # time taken
+            'count': count, # number of songs returned
+            'user_song_already_set': user_song_already_set, # set of user list pk
         })
     else:
+        total_time = time.time() - start_time_filter # end timer
+        total_time = round(total_time, 5)
         return render(request, 'search/filter_search.html', {
-            'myFilter': myFilter,
-            'aot_data': aot_data,
-            'total_time': total_time,
-            'count': count,
+            'myFilter': myFilter, # filter search bar
+            'aot_data': aot_data, # list of songs
+            'total_time': total_time, # time taken
+            'count': count, # number of songs returns
         })
 
     
