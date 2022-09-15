@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 import time
 from django.shortcuts import render
 from .models import AotData, UserList, MySongUser
@@ -18,29 +19,35 @@ def song_list(request):
     page = request.GET.get('page')
     aot_page = p.get_page(page)
     if request.method == 'POST': # POST request when user adds song to list
-        song_primary = request.POST.get('song_primary_key') # get song pk
-        user_primary = request.POST.get('user_primary_key') # get user pk
-        aotsnippet = AotData.objects.get(pk=int(song_primary)) # get added song from database
-        usersnippet = MySongUser.objects.get(pk=int(user_primary)) # get user from database
-        usersnippet.my_songs.add(aotsnippet) # add song to user database
-        user_song_list = UserList.objects.all() # get all user songs
-        # create a set
-        user_song_already_set = set()
-        # foor loop iterates over every user song and if the user pk matches the
-        # current users pk, the pk of the song is added to a set.
-        # set is needed so that users cannot re-add song to their list
-        for i in range(len(user_song_list)): # loops over every user song 
-            # if the pk of the user song matches current user
-            if user_song_list[i].ProfileUser.pk == int(user_primary): 
-                # pk of that song added to set
-                user_song_already_set.add(user_song_list[i].ProfileSong.pk)
-        total_time = time.time() - start_time_filter # end timer
-        total_time = round(total_time, 5)
-        return render(request, 'search/song_list.html', {
-            'aot_page': aot_page, # list of songs
-            'user_song_already_set': user_song_already_set, # pk set of added elements
-            'total_time': total_time, # total time
-        })
+        if 'song_primary_key' in request.POST:
+            song_primary = request.POST.get('song_primary_key') # get song pk
+            user_primary = request.POST.get('user_primary_key') # get user pk
+            aotsnippet = AotData.objects.get(pk=int(song_primary)) # get added song from database
+            usersnippet = MySongUser.objects.get(pk=int(user_primary)) # get user from database
+            usersnippet.my_songs.add(aotsnippet) # add song to user database
+            user_song_list = UserList.objects.all() # get all user songs
+            # create a set
+            user_song_already_set = set()
+            # foor loop iterates over every user song and if the user pk matches the
+            # current users pk, the pk of the song is added to a set.
+            # set is needed so that users cannot re-add song to their list
+            for i in range(len(user_song_list)): # loops over every user song 
+                # if the pk of the user song matches current user
+                if user_song_list[i].ProfileUser.pk == int(user_primary): 
+                    # pk of that song added to set
+                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+            total_time = time.time() - start_time_filter # end timer
+            total_time = round(total_time, 5)
+            return HttpResponse('ajax has broken')
+            # render(
+            #     request, 'search/song_list.html', {
+            #     'aot_page': aot_page, # list of songs
+            #     'user_song_already_set': user_song_already_set, # pk set of added elements
+            #     'total_time': total_time, # total time
+            #     }
+            # )
+        else:
+            return HttpResponse('Did not work')
     elif request.user.is_authenticated: # if user is logged in, clicks onto page
         current_user = request.user # current user
         user_song_list = UserList.objects.all() # list of all songs correlated to user

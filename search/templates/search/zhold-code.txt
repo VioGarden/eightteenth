@@ -1,0 +1,90 @@
+Line 70 of song_list.html
+
+{% if user.is_authenticated %}
+{% if data.pk not in user_song_already_set %}
+    <div class="song-add-div">
+        <form action="{% url 'song-list' %}" method=POST>
+            {% csrf_token %}
+            <input 
+            type="hidden"
+            value="{{ data.pk }}"
+            name="song_primary_key"
+            >
+            <input 
+            type="hidden"
+            value="{{ user.pk }}"
+            name="user_primary_key"
+            >
+            <input 
+            type="submit" 
+            value="+" 
+            name="submit_add">  
+        </form>
+    </div>
+{% endif %}
+{% endif %}
+
+submit_add:$('#submit_add').val(),
+
+#jquery seems to be being ignored rn
+
+# ***create new html file and test on there****
+
+# id for each add sign 
+# jquery a function 
+# connect jquery to button
+
+$(document).on('submit','#song-list-form-add',function(e){
+    $(this).remove();
+    e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url 'song-list' %}',
+            data:{
+                song_primary_key:$('#song_primary_key').val(),
+                user_primary_key:$('#user_primary_key').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+        });
+});
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+        <div>Testing Snow Halation</div>
+        <form id="post-form" method="POST">
+            {% csrf_token %}
+            <p>Nam</p><input type="text" name="nam" id="nam"/><br>
+            <p>Emai</p><input type="text" name="emai" id="emai"/><br>
+            <p>Bi</p><input type="text" name="bi" id="bi"/><br>
+            <input type="submit"/>
+        </form>
+        <script>
+            $(document).on('submit', '#post-form', function(e){
+                e.preventDefault();
+                    $.ajax({
+                        type:'POST',
+                        url: '{% url 'tested' %}',
+                        data:{
+                            nam:$('#nam').val(),
+                            emai:$('#emai').val(),
+                            bi:$('#bi').val(),
+                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                        },
+                    });
+            });
+        </script> 
+    {% endblock content %}
+</body>
+</html>

@@ -11,6 +11,7 @@
 </head>
 <body>
     {% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <div id="song_list_header_space">
 
     </div>
@@ -65,29 +66,34 @@
                 </a>
             </div>
         </li>
+        {% comment %}  {% endcomment %}
         {% if user.is_authenticated %}
         {% if data.pk not in user_song_already_set %}
             <div class="song-add-div">
-                <form action="{% url 'song-list' %}" method=POST>
+                <form method=POST name="song-list-form-add">
                     {% csrf_token %}
                     <input 
                     type="hidden"
                     value="{{ data.pk }}"
                     name="song_primary_key"
+                    id="song_primary_key"
                     >
                     <input 
                     type="hidden"
                     value="{{ user.pk }}"
                     name="user_primary_key"
+                    id="user_primary_key"
                     >
                     <input 
                     type="submit" 
                     value="+" 
-                    name="submit_add">  
+                    name="submit_add"
+                    id="submit_add">  
                 </form>
             </div>
         {% endif %}
         {% endif %}
+        {% comment %}  {% endcomment %}
     </div>
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
@@ -133,6 +139,24 @@
             {% endif %}
         </ul>
     </nav>
+    <script>
+        $(function() {
+            $('form[name="song-list-form-add"]').on('submit', function(e) {
+                e.preventDefault();
+                $(this).remove();
+                $.ajax({
+                    type:'POST',
+                    url:'{% url 'song-list' %}',
+                    data:{
+                        song_primary_key:$('#song_primary_key', this).val(),
+                        user_primary_key:$('#user_primary_key').val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                });
+            })
+        })
+
+    </script>
     {% endblock %}
 </body>
 </html>

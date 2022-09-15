@@ -15,5 +15,3 @@ class MySongUserAdmin(admin.ModelAdmin):
 class UserListAdmin(admin.ModelAdmin):
     display = 'ProfileUser'
     ordering = ('pk',)
-
-    

@@ -9,6 +9,8 @@
 7) Comments
 8) Update admin
 
+9) bug, final form in list not being submitted
+
 
 
 
