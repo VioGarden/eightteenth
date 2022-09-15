@@ -15,7 +15,7 @@ UserList : Database of added songs (list of user-song matches)
 def song_list(request):
     """base page of all songs"""
     start_time_filter = time.time() # timing function
-    p = Paginator(AotData.objects.all(), 15) # paginates data
+    p = Paginator(AotData.objects.all(), 15) # paginates data, # per page
     page = request.GET.get('page')
     aot_page = p.get_page(page)
     if request.method == 'POST': # POST request when user adds song to list
@@ -37,8 +37,8 @@ def song_list(request):
                     # pk of that song added to set
                     user_song_already_set.add(user_song_list[i].ProfileSong.pk)
             total_time = time.time() - start_time_filter # end timer
-            total_time = round(total_time, 5)
-            return HttpResponse('ajax has broken')
+            total_time = round(total_time, 5) # round timer to 5 decimal places
+            return HttpResponse('ajax has broken') # this now uses ajax
             # render(
             #     request, 'search/song_list.html', {
             #     'aot_page': aot_page, # list of songs
@@ -58,7 +58,7 @@ def song_list(request):
                 # pk of that song added to set
                 user_song_already_set.add(user_song_list[i].ProfileSong.pk)
         total_time = time.time() - start_time_filter # end timer
-        total_time = round(total_time, 5)
+        total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/song_list.html', {
                 'aot_page': aot_page, # list of songs
                 'user_song_already_set': user_song_already_set, # set of pk of added songs
@@ -66,7 +66,7 @@ def song_list(request):
             })
     else: # if user not authenticated
         total_time = time.time() - start_time_filter # end timer
-        total_time = round(total_time, 5)
+        total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/song_list.html', {
             'aot_page': aot_page, # list of songs
             'total_time': total_time, # total time
@@ -110,7 +110,7 @@ def filter_search(request):
                     # pk of that song added to set
                     user_song_already_set.add(user_song_list[i].ProfileSong.pk)
         total_time = time.time() - start_time_filter # timer
-        total_time = round(total_time, 5)
+        total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/filter_search.html', {
             'myFilter': myFilter, # filter search bar
             'aot_data': aot_data, # list of songs
@@ -120,7 +120,7 @@ def filter_search(request):
         })
     else:
         total_time = time.time() - start_time_filter # end timer
-        total_time = round(total_time, 5)
+        total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/filter_search.html', {
             'myFilter': myFilter, # filter search bar
             'aot_data': aot_data, # list of songs
@@ -136,97 +136,115 @@ def home(request):
     })
     
 def profile(request):
-    #something to search profile songs
-    profile_songs = UserList.objects.all()
-    if request.method == 'POST':
-        if 'song_score' in request.POST:
-            user_pk = request.user.pk
-            song_pk_score = request.POST.get('song_primary_key_score')
-            song_score = request.POST.get('song_score')
+    """Profile Page"""
+    profile_songs = UserList.objects.all() # grabs every user list project
+    if request.method == 'POST':  # post request profile.html
+        if 'song_score' in request.POST: # post request for changing score of user song
+            user_pk = request.user.pk # current user primary key
+            song_pk_score = request.POST.get('song_primary_key_score') # user pk on song
+            song_score = request.POST.get('song_score') # get score of song in user list
+            # loops over the list of user songs to find matching song of post method
             for i in range(len(profile_songs)):
+                # in user list, if the song pk and user pk match
+                # the recieved user pk and song pk  (not the score or score pk)
                 if (profile_songs[i].ProfileUser.pk == int(user_pk) 
                 and profile_songs[i].ProfileSong.pk == int(song_pk_score)):
-                    score_change_song = profile_songs[i]
-                    score_change_song.ProfileScore = int(song_score)
-                    score_change_song.save(update_fields=['ProfileScore'])
+                    score_change_song = profile_songs[i] # initialize user list song
+                    score_change_song.ProfileScore = int(song_score) # set score to score
+                    score_change_song.save(update_fields=['ProfileScore']) # update field
                     return render(request, 'search/profile.html', {
-                        'profile_songs': profile_songs,
+                        # return updated profile songs, will be updated
+                        'profile_songs': profile_songs, 
                     })
             return render(request, 'search/profile.html', {
+                # if no matches are found for some reason, still returns page
+                # profile songs is list of all user list songs
+                # html page does the sorting if should be displayed or not
                 'profile_songs': profile_songs,
             })
-        song_primary_remove = request.POST.get('song_primary_key_remove')
-        user_primary_remove = request.POST.get('user_primary_key_remove')
-        aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove))
+        # below is scenario where user removes song
+        song_primary_remove = request.POST.get('song_primary_key_remove') # pk of song
+        user_primary_remove = request.POST.get('user_primary_key_remove') # user pk
+        # find query of song to remove in the database
+        aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove)) 
+        # find query of user of the song to remove from database
         usersnippet_remove = MySongUser.objects.get(pk=int(user_primary_remove))
+        # from MySongUser not UserList because of model relationship in models
+        # uservar.my_songs.all() is a queryset for every song under that user
+        # remove the queryed song from the specified user's list of songs
         usersnippet_remove.my_songs.remove(aotsnippet_remove)
         return render(request, 'search/profile.html', {
-            'profile_songs': profile_songs,
-            'song_primary_remove': song_primary_remove,
-            'user_primary_remove': user_primary_remove,
+            'profile_songs': profile_songs, # return all profile songs
         })
     else:
+        # on page load
         return render(request, 'search/profile.html', {
-            'profile_songs': profile_songs,
+            # return all user songs
+            'profile_songs': profile_songs, 
         })
 
 def quick_search(request):
-    start_time = time.time()
-    if request.method == 'POST':
-        if 'searched' in request.POST:
+    """one input search method"""
+    start_time = time.time() # start timer
+    if request.method == 'POST': 
+        if 'searched' in request.POST: # scenario if user searches in search bar
+             # gets data category (options: song, artist, or show)
             search_type = request.POST['search-type']
+            # gets searched query
             searched = request.POST['searched']
-            user_pk = request.POST.get('quick_search_pk')
-            if len(searched) == 0:
+            if len(searched) == 0: # if nothing searched, return no matches
                 return render(request, 'search/quick_search.html', {})
-            if search_type == "song":
+            if search_type == "song": # where model element name is song
                 data_query = AotData.objects.filter(song__contains=searched)
-            elif search_type == "artist":
+            elif search_type == "artist": # where model element name is artist
                 data_query = AotData.objects.filter(artist__contains=searched)
-            else:
+            else: # where model element name is show (no other options are givwn)
                 data_query = AotData.objects.filter(show__contains=searched)
-            count = len(data_query)
-            if request.user.is_authenticated:
-                user_song_list = UserList.objects.all()
-                user_primary = request.user.pk
-                user_song_already_set = set()
-                #for loop below increases time by 10x
-                for i in range(len(user_song_list)):
+            count = len(data_query) # length of the number of matches for a specific query
+            if request.user.is_authenticated: # want to send add to list option if authenticated
+                user_song_list = UserList.objects.all() # list of all user list objects
+                user_primary = request.user.pk # user pk
+                user_song_already_set = set() # initialize set
+                for i in range(len(user_song_list)): 
+                    # if the pk of the user song matches current user
                     if user_song_list[i].ProfileUser.pk == int(user_primary):
+                        # pk of that song added to set
                         user_song_already_set.add(user_song_list[i].ProfileSong.pk)
-                total_time = time.time() - start_time
-                total_time = round(total_time, 5)
+                total_time = time.time() - start_time # end timer
+                total_time = round(total_time, 5) # round timer to 5 decimal places
                 return render(request, 'search/quick_search.html', {
-                    'searched': searched,
-                    'data_query': data_query,
-                    'search_type': search_type,
-                    'count': count,
-                    'total_time': total_time,
-                    'user_song_already_set': user_song_already_set,
+                    'searched': searched, # what user inputted
+                    'data_query': data_query, # list of matching songs
+                    'count': count, # how many results returned
+                    'total_time': total_time, # how long it took to search
+                    'user_song_already_set': user_song_already_set, # set of pk values
                 })
-            else:
-                total_time = time.time() - start_time
-                total_time = round(total_time, 5)
+            else: # if user is not authenticated
+                total_time = time.time() - start_time # end timer
+                total_time = round(total_time, 5) # round timer to 5 decimal places
                 return render(request, 'search/quick_search.html', {
-                    'data_query': data_query,
-                    'count': count,
-                    'total_time': total_time,
+                    'searched': searched, # what user inputted
+                    'data_query': data_query, # return data query of songs
+                    'count': count, # return number of songs
+                    'total_time': total_time, # return time taken
                 })
-        else: 
-            song_primary = request.POST.get('song_primary_key')
-            user_primary = request.POST.get('user_primary_key')
-            aotsnippet = AotData.objects.get(pk=int(song_primary))
-            usersnippet = MySongUser.objects.get(pk=int(user_primary))
-            usersnippet.my_songs.add(aotsnippet)
-            user_song_list = UserList.objects.all()
-            user_song_pk_set = set()
-            for i in range(len(user_song_list)):
-                # if user_song_list[i].ProfileUser.pk != user_pk:
-                user_song_pk_set.add(user_song_list[i].ProfileSong.pk)
+        else: # scenario for post request where user adds song to their user list
+            song_primary = request.POST.get('song_primary_key') # get pk of song
+            user_primary = request.POST.get('user_primary_key') # get user pk
+            aotsnippet = AotData.objects.get(pk=int(song_primary)) # find matching song query
+            usersnippet = MySongUser.objects.get(pk=int(user_primary)) # find correct user
+            usersnippet.my_songs.add(aotsnippet) # add song to user's list of songs
+            user_song_list = UserList.objects.all() # list of every song by user
+            user_song_already_set = set() # initialize set
+            for i in range(len(user_song_list)): 
+                # if the pk of the user song matches current user
+                if user_song_list[i].ProfileUser.pk == int(user_primary):
+                    # pk of that song added to set
+                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
             return render(request, 'search/quick_search.html', {
                 'song_primary': song_primary,
                 'user_primary': user_primary,
-                'user_song_pk_set': user_song_pk_set,
+                'user_song_already_set': user_song_already_set,
             })
     else:
         return render(request, 'search/quick_search.html', {

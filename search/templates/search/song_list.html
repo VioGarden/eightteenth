@@ -141,15 +141,18 @@
     </nav>
     <script>
         $(function() {
-            $('form[name="song-list-form-add"]').on('submit', function(e) {
-                e.preventDefault();
-                $(this).remove();
-                $.ajax({
+            //grabs form (to add a song to user list) on submit
+            $('form[name="song-list-form-add"]').on('submit', function(e) { 
+                e.preventDefault(); //prevent page from reloading
+                $(this).remove(); //deletes button from page
+                $.ajax({ //sending ajax request
                     type:'POST',
                     url:'{% url 'song-list' %}',
                     data:{
+                        //this refers to current song pk, without it the first pk is sent
                         song_primary_key:$('#song_primary_key', this).val(),
                         user_primary_key:$('#user_primary_key').val(),
+                        //csrf token important for form to work
                         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                     },
                 });
