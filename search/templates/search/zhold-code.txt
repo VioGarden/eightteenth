@@ -88,3 +88,31 @@ $(document).on('submit','#song-list-form-add',function(e){
     {% endblock content %}
 </body>
 </html>
+
+# song_primary = request.POST.get('song_primary_key') # get pk of song
+# user_primary = request.POST.get('user_primary_key') # get user pk
+# aotsnippet = AotData.objects.get(pk=int(song_primary)) # find matching song query
+# usersnippet = MySongUser.objects.get(pk=int(user_primary)) # find correct user
+# usersnippet.my_songs.add(aotsnippet) # add song to user's list of songs
+# user_song_list = UserList.objects.all() # list of every song by user
+# user_song_already_set = set() # initialize set
+# for i in range(len(user_song_list)): 
+#     # if the pk of the user song matches current user
+#     if user_song_list[i].ProfileUser.pk == int(user_primary):
+#         # pk of that song added to set
+#         user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+# return render(request, 'search/quick_search.html', {
+#     'song_primary': song_primary,
+#     'user_primary': user_primary,
+#     'user_song_already_set': user_song_already_set,
+# })
+
+# else: # if user is not authenticated
+# total_time = time.time() - start_time # end timer
+# total_time = round(total_time, 5) # round timer to 5 decimal places
+# return render(request, 'search/quick_search.html', {
+#     'searched': searched, # what user inputted
+#     'data_query': data_query, # return data query of songs
+#     'count': count, # return number of songs
+#     'total_time': total_time, # return time taken
+# })

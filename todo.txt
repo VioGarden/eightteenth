@@ -3,6 +3,9 @@
 1) User score ** done
 2) Page/Form no reset/refresh upon search  
     (will have to do some code shifting in quick search to make in ajaxable)
+    (ajax on quick search (song add))
+    (ajax on filtered search (song add))
+    (ajax on profile (song remove))
 3) Profile Ordering songs/Search
 4) Customize Home/Profile
 5) Parse and work with bigger data
@@ -13,6 +16,7 @@
 9) bug, final form in list not being submitted
 10) can you return render with ajax?
 11) bug, error message if wrong login submission
+
 
 
 

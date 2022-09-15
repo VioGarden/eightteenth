@@ -93,26 +93,25 @@
         {% if user.is_authenticated %}
         {% if data.pk not in user_song_already_set %}
             <div class="song-add-div">
-                <form action="{% url 'quick-search' %}" method=POST>
+                <form method=POST name="quick-search-add">
                     {% csrf_token %}
                     <input 
                     type="hidden"
                     value="{{ data.pk }}"
                     name="song_primary_key"
+                    id="song_primary_key"
                     >
                     <input 
                     type="hidden"
                     value="{{ user.pk }}"
                     name="user_primary_key"
+                    id="user_primary_key"
                     >
-                    <input 
-                    type="hidden"
-                    value="{{ user.pk }}"
-                    name="quick_search_pk">
                     <input 
                     type="submit" 
                     value="+" 
-                    name="submit_add">  
+                    name="submit_add"  
+                    id="submit_add">
                 </form>
             </div>
         {% endif %}
@@ -120,6 +119,26 @@
     </div>
     {% endfor %}
     <script src="{% static 'js/fold-quick.js' %}"></script>
+    <script>
+        $(function() {
+            //grabs form (to add a song to user list) on submit
+            $('form[name="quick-search-add"]').on('submit', function(e) { 
+                e.preventDefault(); //prevent page from reloading
+                $(this).remove(); //deletes button from page
+                $.ajax({ //sending ajax request
+                    type:'POST',
+                    url:'{% url 'quick-search' %}',
+                    data:{
+                        //this refers to current song pk, without it the first pk is sent
+                        song_primary_key:$('#song_primary_key', this).val(),
+                        user_primary_key:$('#user_primary_key', this).val(),
+                        //csrf token important for form to work
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                });
+            })
+        })
+    </script>
     {% endblock %}
 </body>
 </html>

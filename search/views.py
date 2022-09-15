@@ -187,13 +187,29 @@ def quick_search(request):
     """one input search method"""
     start_time = time.time() # start timer
     if request.method == 'POST': 
-        if 'searched' in request.POST: # scenario if user searches in search bar
-             # gets data category (options: song, artist, or show)
+        if 'song_primary_key' in request.POST: # scenerio where user adds to song list
+            song_primary = request.POST.get('song_primary_key') # get song pk
+            user_primary = request.POST.get('user_primary_key') # get user pk
+            aotsnippet = AotData.objects.get(pk=int(song_primary)) # pull song from database
+            usersnippet = MySongUser.objects.get(pk=int(user_primary)) # pull user from database
+            usersnippet.my_songs.add(aotsnippet) # add to user list database
+            user_song_list = UserList.objects.all() # list of all songs in userlist
+            user_song_already_set = set() # create empty set
+            for i in range(len(user_song_list)):
+                # if the pk of the user song matches current user
+                if user_song_list[i].ProfileUser.pk == int(user_primary):
+                    # pk of that song added to set
+                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+            return HttpResponse('Added')  # **will use ajax so don't worry for now**
+        elif 'searched' in request.POST: # scenario if user searches in search bar
+            # gets data category (options: song, artist, or show)
             search_type = request.POST['search-type']
             # gets searched query
             searched = request.POST['searched']
             if len(searched) == 0: # if nothing searched, return no matches
-                return render(request, 'search/quick_search.html', {})
+                return render(request, 'search/quick_search.html', {
+                    # blank search is a return case
+                })
             if search_type == "song": # where model element name is song
                 data_query = AotData.objects.filter(song__contains=searched)
             elif search_type == "artist": # where model element name is artist
@@ -202,10 +218,10 @@ def quick_search(request):
                 data_query = AotData.objects.filter(show__contains=searched)
             count = len(data_query) # length of the number of matches for a specific query
             if request.user.is_authenticated: # want to send add to list option if authenticated
-                user_song_list = UserList.objects.all() # list of all user list objects
-                user_primary = request.user.pk # user pk
-                user_song_already_set = set() # initialize set
-                for i in range(len(user_song_list)): 
+                user_song_list = UserList.objects.all() # list of all songs in userlist
+                user_song_already_set = set() # create empty set
+                user_primary = request.user.pk
+                for i in range(len(user_song_list)):
                     # if the pk of the user song matches current user
                     if user_song_list[i].ProfileUser.pk == int(user_primary):
                         # pk of that song added to set
@@ -219,7 +235,7 @@ def quick_search(request):
                     'total_time': total_time, # how long it took to search
                     'user_song_already_set': user_song_already_set, # set of pk values
                 })
-            else: # if user is not authenticated
+            else: # if user is not autheticated, don't need add to song list method
                 total_time = time.time() - start_time # end timer
                 total_time = round(total_time, 5) # round timer to 5 decimal places
                 return render(request, 'search/quick_search.html', {
@@ -229,23 +245,7 @@ def quick_search(request):
                     'total_time': total_time, # return time taken
                 })
         else: # scenario for post request where user adds song to their user list
-            song_primary = request.POST.get('song_primary_key') # get pk of song
-            user_primary = request.POST.get('user_primary_key') # get user pk
-            aotsnippet = AotData.objects.get(pk=int(song_primary)) # find matching song query
-            usersnippet = MySongUser.objects.get(pk=int(user_primary)) # find correct user
-            usersnippet.my_songs.add(aotsnippet) # add song to user's list of songs
-            user_song_list = UserList.objects.all() # list of every song by user
-            user_song_already_set = set() # initialize set
-            for i in range(len(user_song_list)): 
-                # if the pk of the user song matches current user
-                if user_song_list[i].ProfileUser.pk == int(user_primary):
-                    # pk of that song added to set
-                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
-            return render(request, 'search/quick_search.html', {
-                'song_primary': song_primary,
-                'user_primary': user_primary,
-                'user_song_already_set': user_song_already_set,
-            })
-    else:
+            return HttpResponse('Sorry, Post Request Went Wrong')
+    else: # not results returns upon page load
         return render(request, 'search/quick_search.html', {
         })
