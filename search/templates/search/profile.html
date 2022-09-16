@@ -11,6 +11,7 @@
 </head>
 <body>
     {% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% if user.is_authenticated %}
     <div>
         <h1>Profile</h1>
@@ -77,17 +78,19 @@
             </div>
         </li>
         <div class="song-add-div">
-            <form action="{% url 'profile' %}" method=POST>
+            <form method=POST name="profile-remove">
                 {% csrf_token %}
                 <input 
                 type="hidden"
                 value="{{ data.ProfileSong.pk }}"
                 name="song_primary_key_remove"
+                id="song_primary_key_remove"
                 >
                 <input 
                 type="hidden"
                 value="{{ user.pk }}"
                 name="user_primary_key_remove"
+                id="user_primary_key_remove"
                 >
                 <input 
                 type="submit" 
@@ -138,6 +141,26 @@
         </h3>
     </center>
     {% endif %}
+    <script>
+        $(function() {
+            //grabs form (to remove song from user list) on submit
+            $('form[name="profile-remove"]').on('submit', function(e) { 
+                e.preventDefault(); //prevent page from reloading
+                $(this).closest('.song-info-div').remove(); //deletes the song div
+                $.ajax({ //sending ajax request
+                    type:'POST',
+                    url:'{% url 'profile' %}',
+                    data:{
+                        //this refers to current song pk, without it the first pk is sent
+                        song_primary_key_remove:$('#song_primary_key_remove', this).val(),
+                        user_primary_key_remove:$('#user_primary_key_remove', this).val(),
+                        //csrf token important for form to work
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                });
+            })
+        })
+    </script>
     {% endblock %}
 </body>
 </html>

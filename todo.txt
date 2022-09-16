@@ -1,21 +1,24 @@
 -immediate stuff to do 
 
-1) User score ** done
-2) Page/Form no reset/refresh upon search  
-    (will have to do some code shifting in quick search to make in ajaxable)
-    (ajax on quick search (song add))
-    (ajax on filtered search (song add))
-    (ajax on profile (song remove))
+1) User score ** done **
+2) Page/Form no reset/refresh upon search 
+    (will have to do some code shifting in quick search to make in ajaxable) ** done **
+    (ajax on quick search (song add)) ** done **
+    (ajax on filtered search (song add)) ** done **
+    (ajax on profile (song remove)) ** done **
+    (link to score songs)
+    (ajax on scoring songs)
 3) Profile Ordering songs/Search
 4) Customize Home/Profile
 5) Parse and work with bigger data
 6) Media Query
 7) Comments
 8) Update admin
-
-9) bug, final form in list not being submitted
-10) can you return render with ajax?
-11) bug, error message if wrong login submission
+9) current navbar is highlighted and unclickable
+10) shorten code (into functions, less lines)
+11) bug, final form in list not being submitted
+12) can you return render with ajax?
+13) error message if wrong login submission
 
 
 

@@ -139,7 +139,20 @@ def profile(request):
     """Profile Page"""
     profile_songs = UserList.objects.all() # grabs every user list project
     if request.method == 'POST':  # post request profile.html
-        if 'song_score' in request.POST: # post request for changing score of user song
+        if 'song_primary_key_remove' in request.POST: # scenerio where user adds to song list
+            # below is scenario where user removes song
+            song_primary_remove = request.POST.get('song_primary_key_remove') # pk of song
+            user_primary_remove = request.POST.get('user_primary_key_remove') # user pk
+            # find query of song to remove in the database
+            aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove)) 
+            # find query of user of the song to remove from database
+            usersnippet_remove = MySongUser.objects.get(pk=int(user_primary_remove))
+            # from MySongUser not UserList because of model relationship in models
+            # uservar.my_songs.all() is a queryset for every song under that user
+            # remove the queryed song from the specified user's list of songs
+            usersnippet_remove.my_songs.remove(aotsnippet_remove)
+            return HttpResponse('Removed song')
+        elif 'song_score' in request.POST: # post request for changing score of user song
             user_pk = request.user.pk # current user primary key
             song_pk_score = request.POST.get('song_primary_key_score') # user pk on song
             song_score = request.POST.get('song_score') # get score of song in user list
@@ -162,20 +175,8 @@ def profile(request):
                 # html page does the sorting if should be displayed or not
                 'profile_songs': profile_songs,
             })
-        # below is scenario where user removes song
-        song_primary_remove = request.POST.get('song_primary_key_remove') # pk of song
-        user_primary_remove = request.POST.get('user_primary_key_remove') # user pk
-        # find query of song to remove in the database
-        aotsnippet_remove = AotData.objects.get(pk=int(song_primary_remove)) 
-        # find query of user of the song to remove from database
-        usersnippet_remove = MySongUser.objects.get(pk=int(user_primary_remove))
-        # from MySongUser not UserList because of model relationship in models
-        # uservar.my_songs.all() is a queryset for every song under that user
-        # remove the queryed song from the specified user's list of songs
-        usersnippet_remove.my_songs.remove(aotsnippet_remove)
-        return render(request, 'search/profile.html', {
-            'profile_songs': profile_songs, # return all profile songs
-        })
+        else:
+            return HttpResponse('VioletMiko')
     else:
         # on page load
         return render(request, 'search/profile.html', {
