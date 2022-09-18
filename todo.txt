@@ -14,7 +14,7 @@
 6) Media Query
 7) Comments
 8) Update admin
-9) current navbar is highlighted and unclickable
+9) current navbar is highlighted ** done **
 10) shorten code (into functions, less lines)
 12) favorites
 13) error message if wrong login submission

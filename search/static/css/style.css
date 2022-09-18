@@ -370,3 +370,20 @@ a:active {
     display: block;
 }
 
+.nav-item-current, .nav-item-current:visited {
+    font-size: 1rem;
+    padding: 0.66rem 2rem;
+    text-decoration: none;
+    background-color: rgb(7, 125, 7);
+}
+
+.nav-item-current:hover {
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: rgb(7, 86, 7);
+}
+
+.nav-item-current:active {
+    font-size: 1rem;
+    text-decoration: none;
+}

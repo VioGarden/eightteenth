@@ -1,31 +1,50 @@
 <ul>
+    {% with url_name=request.resolver_match.url_name %}
     <li>
-        <a href="{% url 'home' %}" class="nav-item">Home</a>
+        <a href="{% url 'home' %}" 
+        class="nav-item {% if url_name == 'home' %}nav-item-current{% endif %}">
+        Home
+        </a>
     </li>
     <li>
-        <a href="{% url 'quick-search' %}" class="nav-item">Quick</a>
+        <a href="{% url 'quick-search' %}" 
+        class="nav-item {% if url_name == 'quick-search' %}nav-item-current{% endif %}">
+        Quick</a>
     </li>
     <li>
-        <a href="{% url 'filter-search' %}" class="nav-item">Filter</a>
+        <a href="{% url 'filter-search' %}" 
+        class="nav-item {% if url_name == 'filter-search' %}nav-item-current{% endif %}">
+        Filter</a>
     </li>
     <li>
-        <a href="{% url 'song-list' %}" class="nav-item">Song List</a>
+        <a href="{% url 'song-list' %}" 
+        class="nav-item {% if url_name == 'song-list' %}nav-item-current{% endif %}">
+        Song List</a>
     </li>
     {% if user.is_authenticated %}
     <li>
-        <a href="{% url 'profile' %}" class="nav-item">Profile</a>
+        <a href="{% url 'profile' %}" 
+        class="nav-item {% if url_name == 'profile' %}nav-item-current{% endif %}">
+        Profile</a>
     </li>
     <li>
-        <a href="{% url 'logout-user' %}" class="nav-item">Log out</a>
+        <a href="{% url 'logout-user' %}" 
+        class="nav-item {% if url_name == 'logout-user' %}nav-item-current{% endif %}">
+        Log out</a>
     </li>
     {% else %}
     <li>
-        <a href="{% url 'login-user' %}" class="nav-item">Login</a>
+        <a href="{% url 'login-user' %}" 
+        class="nav-item {% if url_name == 'login-user' %}nav-item-current{% endif %}">
+        Login</a>
     </li>
     <li>
-        <a href="{% url 'register-user' %}" class="nav-item">Register</a>
+        <a href="{% url 'register-user' %}" 
+        class="nav-item {% if url_name == 'register-user' %}nav-item-current{% endif %}">
+        Register</a>
     </li>
     {% endif %}
+    {% endwith %}
 
     <form action="{% url 'quick-search'%}" method=POST>
         {% csrf_token %}
@@ -42,3 +61,4 @@
         >
     </form>
 </ul>
+
