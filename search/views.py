@@ -150,82 +150,135 @@ def profile(request):
                 profile_songs = profile_songs.order_by('-ProfileScore')
             elif order_method == 'song-score-lh':  #song score, Low --> High ("None" at top)
                 profile_songs = profile_songs.order_by('ProfileScore')
-            elif order_method == 'song-az': 
-                song_az_set = []
+            elif order_method == 'song-az': # if song-az
+                song_az_set = [] # empty list
+                # getting a list of all songs of specific user
                 profile_songsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                # loop over user songs
                 for i in profile_songsaz:
+                    # add song and primary key to set
                     song_az_set.append((i.ProfileSong.song, i.ProfileSong.pk))
+                # sorts the set by song, alphabetical ordering
                 song_az_set.sort(key=lambda tup: tup[0].lower())
+                # profile_songs will be returned
                 profile_songs = []
+                # looping over alphabetically ordered set
                 for j in range(len(song_az_set)):
+                    # find the song in all user's songs
                     for k in range(len(profile_songsaz)):
+                        # find match by primary key
                         if song_az_set[j][1] == profile_songsaz[k].ProfileSong.pk:
+                            # append the query to the profile_songs list
                             profile_songs.append(profile_songsaz[k])
-            elif order_method == 'song-za': 
+            elif order_method == 'song-za': # opposite alphabetical order
                 song_za_set = []
+                # getting a list of all songs of specific user
                 profile_songsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                # loop over user songs
                 for i in profile_songsza:
+                    # add song and primary key to set
                     song_za_set.append((i.ProfileSong.song, i.ProfileSong.pk))
+                # sorts the set by song, anti-alphabetical ordering
                 song_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
                 profile_songs = []
+                # looping over anti-alphabetically ordered set
                 for j in range(len(song_za_set)):
+                    # find the song in all user's songs
                     for k in range(len(profile_songsza)):
+                        # find match by primary key
                         if song_za_set[j][1] == profile_songsza[k].ProfileSong.pk:
+                            # append the query to the profile_songs list
                             profile_songs.append(profile_songsza[k])
-            elif order_method == 'artist-az': 
+            elif order_method == 'artist-az': # alphabetical order artists
                 artist_az_set = []
+                # getting a list of all songs of specific user
                 profile_artistsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                # loop over user songs
                 for i in profile_artistsaz:
+                    # add song and primary key to set
                     artist_az_set.append((i.ProfileSong.artist, i.ProfileSong.pk))
+                # sorts the set by artists, alphabetical ordering
                 artist_az_set.sort(key=lambda tup: tup[0].lower())
                 profile_artists = []
+                # looping over alphabetically ordered set
                 for j in range(len(artist_az_set)):
+                    # find the song in all user's songs
                     for k in range(len(profile_artistsaz)):
+                        # find match by primary key
                         if artist_az_set[j][1] == profile_artistsaz[k].ProfileSong.pk:
+                             # append the query to the profile_artists list
                             profile_artists.append(profile_artistsaz[k])
+                # match variable to profile_songs so data can be returned
                 profile_songs = profile_artists
-            elif order_method == 'artist-za': 
+            elif order_method == 'artist-za': # anti-alphabetical order artists
                 artist_za_set = []
+                # getting a list of all songs of specific user
                 profile_artistsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                # loop over user songs
                 for i in profile_artistsza:
+                    # add song and primary key to set
                     artist_za_set.append((i.ProfileSong.artist, i.ProfileSong.pk))
+                # sorts the set by artists, anti-alphabetical ordering
                 artist_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
                 profile_artists = []
+                # looping over anti-alphabetically ordered set
                 for j in range(len(artist_za_set)):
+                    # find the song in all user's songs
                     for k in range(len(profile_artistsza)):
+                         # find match by primary key
                         if artist_za_set[j][1] == profile_artistsza[k].ProfileSong.pk:
+                            # append the query to the profile_artists list
                             profile_artists.append(profile_artistsza[k])
+                # match variable to profile_songs so data can be returned
                 profile_songs = profile_artists
-            elif order_method == 'show-az': 
+            elif order_method == 'show-az': # alphabetical order shows
                 show_az_set = []
+                # getting a list of all songs of specific user
                 profile_showsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                # loop over user songs
                 for i in profile_showsaz:
+                    # add song and primary key to set
                     show_az_set.append((i.ProfileSong.show, i.ProfileSong.pk))
+                # sorts the set by show, alphabetical ordering
                 show_az_set.sort(key=lambda tup: tup[0].lower())
                 profile_shows = []
+                # looping over alphabetically ordered set
                 for j in range(len(show_az_set)):
+                    # find the song in all user's songs
                     for k in range(len(profile_showsaz)):
+                        # find match by primary key
                         if show_az_set[j][1] == profile_showsaz[k].ProfileSong.pk:
+                            # append the query to the profile_shows list
                             profile_shows.append(profile_showsaz[k])
+                # match variable to profile_songs so data can be returned
                 profile_songs = profile_shows
-            elif order_method == 'show-za': 
+            elif order_method == 'show-za': # anti-alphabetical order shows
                 show_za_set = []
+                # getting a list of all songs of specific user
                 profile_showsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                # loop over user songs
                 for i in profile_showsza:
+                    # add song and primary key to set
                     show_za_set.append((i.ProfileSong.show, i.ProfileSong.pk))
+                # sorts the set by show, anti-alphabetical ordering
                 show_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
                 profile_shows = []
+                # looping over anti-alphabetically ordered set
                 for j in range(len(show_za_set)):
+                    # find the song in all user's songs
                     for k in range(len(profile_showsza)):
+                        # find match by primary key
                         if show_za_set[j][1] == profile_showsza[k].ProfileSong.pk:
+                            # append the query to the profile_shows list
                             profile_shows.append(profile_showsza[k])
+                # match variable to profile_songs so data can be returned
                 profile_songs = profile_shows
             total_time = time.time() - start_time_filter # end timer
             total_time = round(total_time, 5) # round timer to 5 decimal places
             return render(request, 'search/profile.html', {
-                'profile_songs': profile_songs,
-                'cp1': order_method,
-                'total_time': total_time,
+                'profile_songs': profile_songs, # ordered list of profile songs
+                'cp1': order_method, # method/type of order
+                'total_time': total_time, # time taken to order
             })
         elif 'song_primary_key_remove' in request.POST: # scenerio where user adds to song list
             # below is scenario where user removes song

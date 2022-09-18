@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
-class AotData(models.Model):
+class AotData(models.Model): # Entire Song Dataset
     song = models.CharField(max_length=200)
     artist = models.CharField(max_length=200)
     annid = models.IntegerField(blank=True)
@@ -16,7 +16,7 @@ class AotData(models.Model):
         """%(self.song, self.artist, self.annid, self.show, self.opedin)
 
 
-class MySongUser(models.Model):
+class MySongUser(models.Model): # List of all Users
     MyUser = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete = models.CASCADE,
@@ -26,7 +26,7 @@ class MySongUser(models.Model):
         return "%s"%(self.MyUser)
 
 
-class UserList(models.Model):
+class UserList(models.Model): # List of Songs that have been added by users
     ProfileUser = models.ForeignKey(MySongUser, on_delete=models.CASCADE)
     ProfileSong = models.ForeignKey(AotData, on_delete=models.CASCADE)
     ProfileScore = models.IntegerField(blank=True, null=True, unique=False)
