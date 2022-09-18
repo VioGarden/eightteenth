@@ -24,6 +24,44 @@
             </li>
         </ul>
     </div>
+    <form method=POST action="">
+        {% csrf_token %}
+        <select name="profile-order-type">
+            <option value="added-order-old">Added (Old-New)</option>
+            <option value="added-order-new">Added (New-Old)</option>
+            <option value="song-score-hl">Score (High-Low)</option>
+            <option value="song-score-lh">Score (Low-High)</option>
+            <option value="song-az">Song (A-Z)</option>
+            <option value="song-za">Song (Z-A)</option>
+            <option value="artist-az">Artist (A-Z)</option>
+            <option value="artist-za">Artist (Z-A)</option>
+            <option value="show-az">Show (A-Z)</option>
+            <option value="show-za">Show (Z-A)</option>
+        </select>
+        <input 
+        type="submit"
+        value="order-submit"
+        name="profile-order"
+        >
+    </form>
+    {% if cp1 %}
+    cp1: {{ cp1 }}
+    {% endif %}
+    <br>
+    {% if profile_songsaz %}
+    profile_songsaz: {{ profile_songsaz }}
+    {% endif %}
+    <br>
+    {% if profile_songs %}
+    profile_songs: {{ profile_songs }}
+    {% endif %}
+    <br>
+    {% if song_az_set %}
+    song_az_set: {{ song_az_set }}
+    {% endif %}
+    {% if total_time %}
+    total_time: {{ total_time }}
+    {% endif %}
     <div id="song_list_header_space">
 
     </div>

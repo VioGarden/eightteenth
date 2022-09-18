@@ -137,9 +137,97 @@ def home(request):
     
 def profile(request):
     """Profile Page"""
+    start_time_filter = time.time() # timing function
     profile_songs = UserList.objects.all() # grabs every user list project
     if request.method == 'POST':  # post request profile.html
-        if 'song_primary_key_remove' in request.POST: # scenerio where user adds to song list
+        if 'profile-order-type' in request.POST:
+            order_method = request.POST['profile-order-type']
+            if order_method == 'added-order-old':  #default, Old --> New
+                profile_songs = profile_songs.order_by('ProfileSong')
+            elif order_method == 'added-order-new':  #flip default, New --> Old
+                profile_songs = profile_songs.order_by('-ProfileSong')
+            elif order_method == 'song-score-hl': # song score, High --> Low ("None" at bottom)
+                profile_songs = profile_songs.order_by('-ProfileScore')
+            elif order_method == 'song-score-lh':  #song score, Low --> High ("None" at top)
+                profile_songs = profile_songs.order_by('ProfileScore')
+            elif order_method == 'song-az': 
+                song_az_set = []
+                profile_songsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                for i in profile_songsaz:
+                    song_az_set.append((i.ProfileSong.song, i.ProfileSong.pk))
+                song_az_set.sort(key=lambda tup: tup[0].lower())
+                profile_songs = []
+                for j in range(len(song_az_set)):
+                    for k in range(len(profile_songsaz)):
+                        if song_az_set[j][1] == profile_songsaz[k].ProfileSong.pk:
+                            profile_songs.append(profile_songsaz[k])
+            elif order_method == 'song-za': 
+                song_za_set = []
+                profile_songsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                for i in profile_songsza:
+                    song_za_set.append((i.ProfileSong.song, i.ProfileSong.pk))
+                song_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
+                profile_songs = []
+                for j in range(len(song_za_set)):
+                    for k in range(len(profile_songsza)):
+                        if song_za_set[j][1] == profile_songsza[k].ProfileSong.pk:
+                            profile_songs.append(profile_songsza[k])
+            elif order_method == 'artist-az': 
+                artist_az_set = []
+                profile_artistsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                for i in profile_artistsaz:
+                    artist_az_set.append((i.ProfileSong.artist, i.ProfileSong.pk))
+                artist_az_set.sort(key=lambda tup: tup[0].lower())
+                profile_artists = []
+                for j in range(len(artist_az_set)):
+                    for k in range(len(profile_artistsaz)):
+                        if artist_az_set[j][1] == profile_artistsaz[k].ProfileSong.pk:
+                            profile_artists.append(profile_artistsaz[k])
+                profile_songs = profile_artists
+            elif order_method == 'artist-za': 
+                artist_za_set = []
+                profile_artistsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                for i in profile_artistsza:
+                    artist_za_set.append((i.ProfileSong.artist, i.ProfileSong.pk))
+                artist_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
+                profile_artists = []
+                for j in range(len(artist_za_set)):
+                    for k in range(len(profile_artistsza)):
+                        if artist_za_set[j][1] == profile_artistsza[k].ProfileSong.pk:
+                            profile_artists.append(profile_artistsza[k])
+                profile_songs = profile_artists
+            elif order_method == 'show-az': 
+                show_az_set = []
+                profile_showsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                for i in profile_showsaz:
+                    show_az_set.append((i.ProfileSong.show, i.ProfileSong.pk))
+                show_az_set.sort(key=lambda tup: tup[0].lower())
+                profile_shows = []
+                for j in range(len(show_az_set)):
+                    for k in range(len(profile_showsaz)):
+                        if show_az_set[j][1] == profile_showsaz[k].ProfileSong.pk:
+                            profile_shows.append(profile_showsaz[k])
+                profile_songs = profile_shows
+            elif order_method == 'show-za': 
+                show_za_set = []
+                profile_showsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                for i in profile_showsza:
+                    show_za_set.append((i.ProfileSong.show, i.ProfileSong.pk))
+                show_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
+                profile_shows = []
+                for j in range(len(show_za_set)):
+                    for k in range(len(profile_showsza)):
+                        if show_za_set[j][1] == profile_showsza[k].ProfileSong.pk:
+                            profile_shows.append(profile_showsza[k])
+                profile_songs = profile_shows
+            total_time = time.time() - start_time_filter # end timer
+            total_time = round(total_time, 5) # round timer to 5 decimal places
+            return render(request, 'search/profile.html', {
+                'profile_songs': profile_songs,
+                'cp1': order_method,
+                'total_time': total_time,
+            })
+        elif 'song_primary_key_remove' in request.POST: # scenerio where user adds to song list
             # below is scenario where user removes song
             song_primary_remove = request.POST.get('song_primary_key_remove') # pk of song
             user_primary_remove = request.POST.get('user_primary_key_remove') # user pk
@@ -179,6 +267,7 @@ def profile(request):
             return HttpResponse('VioletMiko')
     else:
         # on page load
+        # profile_songs = set(profile_songs)
         return render(request, 'search/profile.html', {
             # return all user songs
             'profile_songs': profile_songs, 

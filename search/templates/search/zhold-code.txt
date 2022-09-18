@@ -116,3 +116,17 @@ $(document).on('submit','#song-list-form-add',function(e){
 #     'count': count, # return number of songs
 #     'total_time': total_time, # return time taken
 # })
+
+u = UserList.objects.all()
+u.order_by('ProfileScore')
+u.order_by('-ProfileScore')
+for i in range(len(u)) (or i in u)
+if u[i].ProfileUser.pk == request.user.pk:
+maybe create set of tuples
+then turn set of tuples into idkidk
+sort a tuple somehow or dict
+need tuple because could be duplicates
+uuuu = set(u.order_by('ProfileScore'))
+
+UserList.objects.filter(ProfileUser = 1)
+

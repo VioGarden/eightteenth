@@ -8,7 +8,7 @@
     (ajax on profile (song remove)) ** done **
     (link to score songs)
     (ajax on scoring songs)
-3) Profile Ordering songs/Search
+3) Profile Ordering songs/Search ** done **
 4) Customize Home/Profile
 5) Parse and work with bigger data
 6) Media Query
@@ -16,9 +16,10 @@
 8) Update admin
 9) current navbar is highlighted and unclickable
 10) shorten code (into functions, less lines)
-11) bug, final form in list not being submitted
-12) can you return render with ajax?
+12) favorites
 13) error message if wrong login submission
+14) paganiation space to click too small
+15) customize dropdowns
 
 
 
