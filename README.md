@@ -1,7 +1,7 @@
 # eightteenth
 brief :
 Database Backed Website Using Django.
-Database is a list of song and info about each song.
+Database is a list of songs and contains info about each song.
 
 This website allows for : 
 -User account creation
