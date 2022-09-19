@@ -14,7 +14,7 @@ def login_user(request):
             login(request, mysonguser)
             return redirect('home')
         else:
-            messages.success(request, ("Error Logging In, Try Again"))
+            messages.success(request, ("Error Logging In, Please Try Again"))
             return redirect('login-user')
     else:
         return render(request, 'authentication/login.html', {})

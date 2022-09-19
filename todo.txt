@@ -23,8 +23,8 @@
 15) customize dropdowns 
 16) not resetting upon search 
 
-1) not refreshing form upon reset
-2) error message with login submission
+1) not refreshing form upon reset ** done **
+2) error message with login submission  ** done **
 3) customize register user
 4) customize dropdowns
 5) bigger data
@@ -32,7 +32,7 @@
 7) shorten code
 8) media query
 9) pagination bug/qol thing
-
+10) profile still has problems with song scoring
 
 
 

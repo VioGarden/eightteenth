@@ -403,3 +403,29 @@ a:active {
     margin: auto 0px;
     display: flex;
 }
+
+.warning-message {
+    display: block;
+    position: relative;
+    background-color: rgb(70, 112, 70);
+    padding: 0.75rem 0;
+}
+
+.warning-message-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.remove-message {
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    border: none;
+    background-color: rgb(70, 112, 70);
+    color: rgb(186, 142, 55);
+    font-size: 30px;
+}
+
+.remove-message:hover {
+    color: rgb(235, 181, 71)
+}
