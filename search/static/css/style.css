@@ -387,3 +387,19 @@ a:active {
     font-size: 1rem;
     text-decoration: none;
 }
+
+.profile-header {
+    display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
+    padding-top: 1rem;
+}
+
+.profile-header-form {
+    margin: auto 0px;
+}
+
+.profile-header-timer {
+    margin: auto 0px;
+    display: flex;
+}

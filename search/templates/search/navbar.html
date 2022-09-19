@@ -7,6 +7,11 @@
         </a>
     </li>
     <li>
+        <a href="{% url 'song-list' %}" 
+        class="nav-item {% if url_name == 'song-list' %}nav-item-current{% endif %}">
+        Song List</a>
+    </li>
+    <li>
         <a href="{% url 'quick-search' %}" 
         class="nav-item {% if url_name == 'quick-search' %}nav-item-current{% endif %}">
         Quick</a>
@@ -15,11 +20,6 @@
         <a href="{% url 'filter-search' %}" 
         class="nav-item {% if url_name == 'filter-search' %}nav-item-current{% endif %}">
         Filter</a>
-    </li>
-    <li>
-        <a href="{% url 'song-list' %}" 
-        class="nav-item {% if url_name == 'song-list' %}nav-item-current{% endif %}">
-        Song List</a>
     </li>
     {% if user.is_authenticated %}
     <li>

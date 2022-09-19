@@ -321,9 +321,12 @@ def profile(request):
     else:
         # on page load
         # profile_songs = set(profile_songs)
+        total_time = time.time() - start_time_filter # end timer
+        total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/profile.html', {
             # return all user songs
             'profile_songs': profile_songs, 
+            'total_time': total_time,
         })
 
 def quick_search(request):

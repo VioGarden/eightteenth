@@ -13,40 +13,36 @@
     {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% if user.is_authenticated %}
-    <div>
-        <h1>Profile</h1>
-        <p>Hello {{ user }}</p>
-        <ul>
-            <li>
-                <p>avg score</p>
-                <p>Personal List</p>
-                <p>Favorites</p>
-            </li>
-        </ul>
+    <div class="profile-header">
+        <div class="profile-header-user">
+            <h2>{{ user }}'s song list</h2>
+        </div>
+        <form method=POST action="" class="profile-header-form">
+            {% csrf_token %}
+            <select name="profile-order-type">
+                <option value="added-order-old">Added (Old-New)</option>
+                <option value="added-order-new">Added (New-Old)</option>
+                <option value="song-score-hl">Score (High-Low)</option>
+                <option value="song-score-lh">Score (Low-High)</option>
+                <option value="song-az">Song (A-Z)</option>
+                <option value="song-za">Song (Z-A)</option>
+                <option value="artist-az">Artist (A-Z)</option>
+                <option value="artist-za">Artist (Z-A)</option>
+                <option value="show-az">Show (A-Z)</option>
+                <option value="show-za">Show (Z-A)</option>
+            </select>
+            <input 
+            type="submit"
+            value="order songs"
+            name="profile-order"
+            >
+        </form>
+        <div class="profile-header-timer">
+            {% if total_time %}
+            time: {{ total_time }}
+            {% endif %}
+        </div>
     </div>
-    <form method=POST action="">
-        {% csrf_token %}
-        <select name="profile-order-type">
-            <option value="added-order-old">Added (Old-New)</option>
-            <option value="added-order-new">Added (New-Old)</option>
-            <option value="song-score-hl">Score (High-Low)</option>
-            <option value="song-score-lh">Score (Low-High)</option>
-            <option value="song-az">Song (A-Z)</option>
-            <option value="song-za">Song (Z-A)</option>
-            <option value="artist-az">Artist (A-Z)</option>
-            <option value="artist-za">Artist (Z-A)</option>
-            <option value="show-az">Show (A-Z)</option>
-            <option value="show-za">Show (Z-A)</option>
-        </select>
-        <input 
-        type="submit"
-        value="order-submit"
-        name="profile-order"
-        >
-    </form>
-    {% if total_time %}
-    total_time: {{ total_time }}
-    {% endif %}
     <div id="song_list_header_space">
 
     </div>
