@@ -19,7 +19,7 @@
         </div>
         <form method=POST action="" class="profile-header-form">
             {% csrf_token %}
-            <select name="profile-order-type">
+            <select name="profile-order-type" id="profile-order-type">
                 <option value="added-order-old">Added (Old-New)</option>
                 <option value="added-order-new">Added (New-Old)</option>
                 <option value="song-score-hl">Score (High-Low)</option>
@@ -179,6 +179,28 @@
                 });
             })
         })
+    </script>
+    <script>
+        // function so dropdown (of song ordering) doesn't change on every order
+        window.onload = function() { 
+        // onload, gets from session storage the selected dropdown item
+        var orderingItem = sessionStorage.getItem("OrderingItem");  
+        // if there is nothing in the session storage, defualts to added-order-old
+        console.log(orderingItem)
+        if(orderingItem === null){
+            var orderingItem = "added-order-old"
+        }
+        console.log(orderingItem)
+        // the value of the dropdown is the selected dropdown item, this line inputs that
+        $('#profile-order-type').val(orderingItem);
+        }
+        // if there is a change to the select item
+        $('#profile-order-type').change(function() { 
+            // orderVal gets the value of the change
+            var orderVal = $(this).val();
+            // session storage sets the new selected item to OredingItem
+            sessionStorage.setItem("OrderingItem", orderVal);
+        });
     </script>
     {% endblock %}
 </body>
