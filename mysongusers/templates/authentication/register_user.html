@@ -16,23 +16,43 @@
     </div>
     {% else %}
         {% if form.errors %}
-        <div>
-            <p>Error with registration form</p>
+        <div class="warning-message">
+            <div class="warning-message-wrap">
+                <div "warning-text">
+                    <p>Error with registration form</p>
+                </div>
+            </div>
+            <button 
+                type=button 
+                class="remove-message"
+                onclick="removeMessage(this)">
+                ⨉
+            </button>
         </div>
         {% endif %}
-        <div>
-            <h1>Register</h1>
-                <br><br>
-                <form action="{% url 'register-user' %}" method=POST>
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <br><br>
-                    <input 
-                    type="submit" 
-                    value="Submit">
-                </form>
+        <div class="register-border">
+            <form action="{% url 'register-user' %}" method=POST>
+                {% csrf_token %}
+                <div class="register-form-items">
+                    <h1 class="register-header">Register</h1>
+                        {% for field in form %}
+                        <div class="register-inputs">
+                            <label class="register-label">{{ field.label }}</label>
+                            {{ field }}
+                            <div "register-help">
+                                {{ field.help_text }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    <div class="register-button-div">
+                        <input 
+                        type="submit" 
+                        value="Submit"
+                        class="register-button">
+                    </div>
+                </div>
+            </form>
         </div>
-            <br><br>
     {% endif %}
     {% endblock %}
 </body>
