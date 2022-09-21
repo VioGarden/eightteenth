@@ -12,6 +12,51 @@
     {% block content %}
     {% if user.is_authenticated %}
     <p>Hello {{ user }}</p>
+
+    <div class="wrapper1" style="border: 2px solid red;">
+        <div class="wrapper1header"><h2>Search Our Comprehensive Database</h2></div>
+        <div><h3>Song List</h3></div>
+        <div><h3>Quick Search</h3></div>
+        <div><h3>Filter</h3></div>
+        <div class="songlist1"><img class="img" src="static/songlistimg/noauth-song-list.png" alt=""></div>
+        <div class="quick1"><img class="img" src="static/songlistimg/noauth-quick.png" alt=""></div>
+        <div class="filter1"><img class="img" src="static/songlistimg/auth-filter.png" alt=""></div>
+        <div class="songlist2"><img class="img" src="static/songlistimg/noauth-song-list-hover.png" alt=""></div>
+        <div class="quick2"><img class="img" src="static/songlistimg/noauth-quick-select.png" alt=""></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/noauth-search.png" alt=""></div>
+        <div class="songlist3"><img class="img" src="static/songlistimg/noauth-song-list-page.png" alt=""></div>
+        <div class="quick3"><img class="img" src="static/songlistimg/noauth-quick-search.png" alt=""></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/noauth-search-results.png" alt=""></div>
+        <div></div>
+        <div class="quick3"><img class="img" src="static/songlistimg/noauth-quick-results.png" alt=""></div>
+        <div class="filter4"><img class="img" src="static/songlistimg/noauth-filter-result-tab.png" alt=""></div>
+    </div>
+    <div class="wrapper2" style="border: 2px solid blue;">
+        <div class="wrapper2header"><h2>Register or Login to create and score your own song list!</h2></div>
+        <div class="songlist1"><img class="img" src="static/songlistimg/login.png" alt=""></div>
+        <div class="songlist2"><img class="img" src="static/songlistimg/register.png" alt=""></div>
+    </div>
+    <div class="wrapper3" style="border: 2px solid yellow;">
+        <div class="wrapper3header"><h1>Accessing the website in full!</h1></div>
+        <div class="wrapper3header"><h2>Adding songs to your list</h2></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="empty profile"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="search"></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="add"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="appears in profile"></div>
+        <div class="wrapper3header"><h2>Removing songs from your list</h2></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="press -"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="dissapears from profile"></div>
+        <div class="wrapper3header"><h2>Scoring songs in your list</h2></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="profile"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="hover over none"></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="select score"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="auto refreshes"></div>
+        <div class="wrapper3header"><h2>Ordering songs in your list</h2></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="pre order, added order"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="select order method"></div>
+        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="order by oppo score"></div>
+        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="order by show"></div>
+    </div>
     {% else %}
     <p>Hello, you are not logged in</p>
     {% endif %}

@@ -2,7 +2,7 @@ import json
 import time
 start_time = time.time()
 
-f = open('search/fixtures/dataaot.json', 'r')
+f = open('search/fixtures/dataamq.json', 'r')
 data = f.read()
 f.close()
 
@@ -33,7 +33,7 @@ for i in range(len(user)):
     temp_dict["fields"] = user[i]
     array.append(temp_dict)
 
-file = open('search/fixtures/aotfixture.json', 'a')
+file = open('search/fixtures/amqfixture.json', 'a')
 file.write(json.dumps(array))
 file.close()
 

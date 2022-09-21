@@ -15,7 +15,7 @@ UserList : Database of added songs (list of user-song matches)
 def song_list(request):
     """base page of all songs"""
     start_time_filter = time.time() # timing function
-    p = Paginator(AotData.objects.all(), 15) # paginates data, # per page
+    p = Paginator(AotData.objects.all(), 100) # paginates data, # per page
     page = request.GET.get('page')
     aot_page = p.get_page(page)
     if request.method == 'POST': # POST request when user adds song to list

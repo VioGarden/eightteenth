@@ -116,13 +116,6 @@
                 </a>
             </li>
             {% endif %}
-            {% for page in aot_page.paginator.page_range %}
-            <li class="page-list">
-                <a href="?page={{ page }}" class="page-link">
-                    {{ page }}
-                </a>
-            </li>
-            {% endfor %}
             {% if aot_page.has_next %}
             <li class="page-list">
                 <a href="?page={{aot_page.next_page_number}}" class="page-link">

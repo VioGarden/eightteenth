@@ -130,6 +130,7 @@ a:active {
     font-size: 1.5rem;
     position: sticky;
     top: 0px;
+    z-index: 1;
 }
 
 .single > h4 {
@@ -487,4 +488,51 @@ a:active {
 
 .register-inputs {
     margin-bottom: 1.5rem;
+}
+
+.nav-sb {
+    margin-left: 30px;
+}
+
+.wrapper1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0px 10px;
+}
+
+.wrapper1header {
+    grid-column: 1/-1;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+}
+.img { 
+    max-width: 100%; 
+    height: auto ;
+    border: 2px solid black;
+}
+
+.wrapper2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0px 10px;
+}
+
+.wrapper2header {
+    grid-column: 1/-1;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0px 10px;
+}
+
+.wrapper3header {
+    grid-column: 1/-1;
+    display: flex;
+    justify-content: center;
 }

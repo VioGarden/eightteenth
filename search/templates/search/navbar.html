@@ -45,20 +45,21 @@
     </li>
     {% endif %}
     {% endwith %}
-
-    <form action="{% url 'quick-search'%}" method=POST>
-        {% csrf_token %}
-        <input 
+    <li class="nav-sb">
+        <form action="{% url 'quick-search'%}" method=POST>
+            {% csrf_token %}
+            <input 
             type="search" 
             id="search"
             placeholder="search song"
             name="searched"
             />
-        <input
-        type="hidden"
-        name="search-type"
-        value="song"
-        >
-    </form>
+            <input
+            type="hidden"
+            name="search-type"
+            value="song"
+            >
+        </form>
+    </li>
 </ul>
 
