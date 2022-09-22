@@ -12,6 +12,47 @@ MySongUser : Database of every user
 UserList : Database of added songs (list of user-song matches)
 """
 
+def order_profile_songs(query_set, list_title_i):
+    """
+    this function sorts a query set by looking at a list which has the desired order
+
+    query_set = set of all songs specific to current user in a query set
+    list_title_i = the query set sorted as a list with element bieng a tuple of item and index
+    """
+    # why necessary : have not been able to find an order command for 
+    # items that are related to django models by foreign keys, hence manual order is necessary
+    profile_songs = []
+    # for each item in list
+    for j in range(len(list_title_i)):
+        # loop over the query set
+        for k in range(len(query_set)):
+            # if the item in list is found in the query set
+            if list_title_i[j][1] == query_set[k].ProfileSong.pk:
+                # append that element to a list of queries
+                profile_songs.append(query_set[k])
+    return profile_songs
+
+
+def already(usl, up):
+    """
+    creates a set that of primary keys of songs
+    which the user has in their song list
+
+    in html, these songs in the set will not have a "+" option
+    because they are already in the user's song list
+
+    usl = usersonglist (list of every song that has been added by all users)
+    up = current user's primary key
+    """
+    already_set = set()
+    # iterates over every song that is in usersonglist
+    for i in range(len(usl)):
+        # if the song's profileuser's primary key matches current user's pk
+        if usl[i].ProfileUser.pk == int(up):
+            # thta song is added to the set
+            already_set.add(usl[i].ProfileSong.pk)
+    return already_set
+
 def song_list(request):
     """base page of all songs"""
     start_time_filter = time.time() # timing function
@@ -20,24 +61,24 @@ def song_list(request):
     aot_page = p.get_page(page)
     if request.method == 'POST': # POST request when user adds song to list
         if 'song_primary_key' in request.POST:
-            song_primary = request.POST.get('song_primary_key') # get song pk
-            user_primary = request.POST.get('user_primary_key') # get user pk
-            aotsnippet = AotData.objects.get(pk=int(song_primary)) # get added song from database
-            usersnippet = MySongUser.objects.get(pk=int(user_primary)) # get user from database
-            usersnippet.my_songs.add(aotsnippet) # add song to user database
-            user_song_list = UserList.objects.all() # get all user songs
-            # create a set
-            user_song_already_set = set()
-            # foor loop iterates over every user song and if the user pk matches the
-            # current users pk, the pk of the song is added to a set.
-            # set is needed so that users cannot re-add song to their list
-            for i in range(len(user_song_list)): # loops over every user song 
-                # if the pk of the user song matches current user
-                if user_song_list[i].ProfileUser.pk == int(user_primary): 
-                    # pk of that song added to set
-                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
-            total_time = time.time() - start_time_filter # end timer
-            total_time = round(total_time, 5) # round timer to 5 decimal places
+            # song_primary = request.POST.get('song_primary_key') # get song pk
+            # user_primary = request.POST.get('user_primary_key') # get user pk
+            # aotsnippet = AotData.objects.get(pk=int(song_primary)) # get added song from database
+            # usersnippet = MySongUser.objects.get(pk=int(user_primary)) # get user from database
+            # usersnippet.my_songs.add(aotsnippet) # add song to user database
+            # user_song_list = UserList.objects.all() # get all user songs
+            # # create a set
+            # user_song_already_set = set()
+            # # foor loop iterates over every user song and if the user pk matches the
+            # # current users pk, the pk of the song is added to a set.
+            # # set is needed so that users cannot re-add song to their list
+            # for i in range(len(user_song_list)): # loops over every user song 
+            #     # if the pk of the user song matches current user
+            #     if user_song_list[i].ProfileUser.pk == int(user_primary): 
+            #         # pk of that song added to set
+            #         user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+            # total_time = time.time() - start_time_filter # end timer
+            # total_time = round(total_time, 5) # round timer to 5 decimal places
             return HttpResponse('ajax has broken') # this now uses ajax
             # render(
             #     request, 'search/song_list.html', {
@@ -49,14 +90,9 @@ def song_list(request):
         else:
             return HttpResponse('Did not work')
     elif request.user.is_authenticated: # if user is logged in, clicks onto page
-        current_user = request.user # current user
+        current_user = request.user.pk # current user
         user_song_list = UserList.objects.all() # list of all songs correlated to user
-        user_song_already_set = set() # empty set
-        for i in range(len(user_song_list)): # looping over all user songs
-            # if the pk of the user song matches current user
-            if user_song_list[i].ProfileUser.pk == int(current_user.pk): 
-                # pk of that song added to set
-                user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+        user_song_already_set = already(user_song_list, current_user) # function already
         total_time = time.time() - start_time_filter # end timer
         total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/song_list.html', {
@@ -87,12 +123,7 @@ def filter_search(request):
         aotsnippet = AotData.objects.get(pk=int(song_primary)) # pull song from database
         usersnippet = MySongUser.objects.get(pk=int(user_primary)) # pull user from database
         usersnippet.my_songs.add(aotsnippet) # add to user list database
-        user_song_already_set = set() # create empty set
-        for i in range(len(user_song_list)):
-            # if the pk of the user song matches current user
-            if user_song_list[i].ProfileUser.pk == int(user_primary):
-                # pk of that song added to set
-                user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+        user_song_already_set = already(user_song_list, user_primary) # function already
         return render(request, 'search/filter_search.html', {
             'myFilter': myFilter, # filter form
             'user_song_already_set': user_song_already_set, # set of user list song pk
@@ -103,12 +134,8 @@ def filter_search(request):
         })
     count = len(aot_data) # number of songs returned, used for search info
     if request.user.is_authenticated: # logged in page reload
-        user_song_already_set = set() # create empty set
-        for i in range(len(user_song_list)):
-            # if the pk of the user song matches current user
-            if user_song_list[i].ProfileUser.pk == int(request.user.pk):
-                    # pk of that song added to set
-                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+        current_user = request.user.pk
+        user_song_already_set = already(user_song_list, current_user) # function already
         total_time = time.time() - start_time_filter # timer
         total_time = round(total_time, 5) # round timer to 5 decimal places
         return render(request, 'search/filter_search.html', {
@@ -151,68 +178,44 @@ def profile(request):
             elif order_method == 'song-score-lh':  #song score, Low --> High ("None" at top)
                 profile_songs = profile_songs.order_by('ProfileScore')
             elif order_method == 'song-az': # if song-az
-                song_az_set = [] # empty list
                 # getting a list of all songs of specific user
                 profile_songsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                song_az_set = [] # empty list
                 # loop over user songs
                 for i in profile_songsaz:
                     # add song and primary key to set
                     song_az_set.append((i.ProfileSong.song, i.ProfileSong.pk))
                 # sorts the set by song, alphabetical ordering
                 song_az_set.sort(key=lambda tup: tup[0].lower())
-                # profile_songs will be returned
-                profile_songs = []
-                # looping over alphabetically ordered set
-                for j in range(len(song_az_set)):
-                    # find the song in all user's songs
-                    for k in range(len(profile_songsaz)):
-                        # find match by primary key
-                        if song_az_set[j][1] == profile_songsaz[k].ProfileSong.pk:
-                            # append the query to the profile_songs list
-                            profile_songs.append(profile_songsaz[k])
+                # function to make list of displayable songs
+                profile_songs = order_profile_songs(profile_songsaz, song_az_set)
             elif order_method == 'song-za': # opposite alphabetical order
-                song_za_set = []
                 # getting a list of all songs of specific user
                 profile_songsza = UserList.objects.filter(ProfileUser = request.user.pk)
+                song_za_set = []
                 # loop over user songs
                 for i in profile_songsza:
                     # add song and primary key to set
                     song_za_set.append((i.ProfileSong.song, i.ProfileSong.pk))
                 # sorts the set by song, anti-alphabetical ordering
                 song_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
-                profile_songs = []
-                # looping over anti-alphabetically ordered set
-                for j in range(len(song_za_set)):
-                    # find the song in all user's songs
-                    for k in range(len(profile_songsza)):
-                        # find match by primary key
-                        if song_za_set[j][1] == profile_songsza[k].ProfileSong.pk:
-                            # append the query to the profile_songs list
-                            profile_songs.append(profile_songsza[k])
+                # function to make list of displayable songs
+                profile_songs = order_profile_songs(profile_songsza, song_za_set)
             elif order_method == 'artist-az': # alphabetical order artists
-                artist_az_set = []
                 # getting a list of all songs of specific user
                 profile_artistsaz = UserList.objects.filter(ProfileUser = request.user.pk)
+                artist_az_set = []
                 # loop over user songs
                 for i in profile_artistsaz:
                     # add song and primary key to set
                     artist_az_set.append((i.ProfileSong.artist, i.ProfileSong.pk))
                 # sorts the set by artists, alphabetical ordering
                 artist_az_set.sort(key=lambda tup: tup[0].lower())
-                profile_artists = []
-                # looping over alphabetically ordered set
-                for j in range(len(artist_az_set)):
-                    # find the song in all user's songs
-                    for k in range(len(profile_artistsaz)):
-                        # find match by primary key
-                        if artist_az_set[j][1] == profile_artistsaz[k].ProfileSong.pk:
-                             # append the query to the profile_artists list
-                            profile_artists.append(profile_artistsaz[k])
-                # match variable to profile_songs so data can be returned
-                profile_songs = profile_artists
+                # function to make list of displayable songs
+                profile_songs = order_profile_songs(profile_artistsaz, artist_az_set)
             elif order_method == 'artist-za': # anti-alphabetical order artists
-                artist_za_set = []
                 # getting a list of all songs of specific user
+                artist_za_set = []
                 profile_artistsza = UserList.objects.filter(ProfileUser = request.user.pk)
                 # loop over user songs
                 for i in profile_artistsza:
@@ -220,17 +223,8 @@ def profile(request):
                     artist_za_set.append((i.ProfileSong.artist, i.ProfileSong.pk))
                 # sorts the set by artists, anti-alphabetical ordering
                 artist_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
-                profile_artists = []
-                # looping over anti-alphabetically ordered set
-                for j in range(len(artist_za_set)):
-                    # find the song in all user's songs
-                    for k in range(len(profile_artistsza)):
-                         # find match by primary key
-                        if artist_za_set[j][1] == profile_artistsza[k].ProfileSong.pk:
-                            # append the query to the profile_artists list
-                            profile_artists.append(profile_artistsza[k])
-                # match variable to profile_songs so data can be returned
-                profile_songs = profile_artists
+                # function to make list of displayable songs
+                profile_songs = order_profile_songs(profile_artistsza, artist_za_set)
             elif order_method == 'show-az': # alphabetical order shows
                 show_az_set = []
                 # getting a list of all songs of specific user
@@ -241,17 +235,8 @@ def profile(request):
                     show_az_set.append((i.ProfileSong.show, i.ProfileSong.pk))
                 # sorts the set by show, alphabetical ordering
                 show_az_set.sort(key=lambda tup: tup[0].lower())
-                profile_shows = []
-                # looping over alphabetically ordered set
-                for j in range(len(show_az_set)):
-                    # find the song in all user's songs
-                    for k in range(len(profile_showsaz)):
-                        # find match by primary key
-                        if show_az_set[j][1] == profile_showsaz[k].ProfileSong.pk:
-                            # append the query to the profile_shows list
-                            profile_shows.append(profile_showsaz[k])
-                # match variable to profile_songs so data can be returned
-                profile_songs = profile_shows
+                # function to make list of displayable songs
+                profile_songs = order_profile_songs(profile_showsaz, show_az_set)
             elif order_method == 'show-za': # anti-alphabetical order shows
                 show_za_set = []
                 # getting a list of all songs of specific user
@@ -262,17 +247,8 @@ def profile(request):
                     show_za_set.append((i.ProfileSong.show, i.ProfileSong.pk))
                 # sorts the set by show, anti-alphabetical ordering
                 show_za_set.sort(key=lambda tup: tup[0].lower(), reverse=True)
-                profile_shows = []
-                # looping over anti-alphabetically ordered set
-                for j in range(len(show_za_set)):
-                    # find the song in all user's songs
-                    for k in range(len(profile_showsza)):
-                        # find match by primary key
-                        if show_za_set[j][1] == profile_showsza[k].ProfileSong.pk:
-                            # append the query to the profile_shows list
-                            profile_shows.append(profile_showsza[k])
-                # match variable to profile_songs so data can be returned
-                profile_songs = profile_shows
+                # function to make list of displayable songs
+                profile_songs = order_profile_songs(profile_showsza, show_za_set)
             total_time = time.time() - start_time_filter # end timer
             total_time = round(total_time, 5) # round timer to 5 decimal places
             return render(request, 'search/profile.html', {
@@ -340,12 +316,7 @@ def quick_search(request):
             usersnippet = MySongUser.objects.get(pk=int(user_primary)) # pull user from database
             usersnippet.my_songs.add(aotsnippet) # add to user list database
             user_song_list = UserList.objects.all() # list of all songs in userlist
-            user_song_already_set = set() # create empty set
-            for i in range(len(user_song_list)):
-                # if the pk of the user song matches current user
-                if user_song_list[i].ProfileUser.pk == int(user_primary):
-                    # pk of that song added to set
-                    user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+            user_song_already_set = already(user_song_list, user_primary) # function already
             return HttpResponse('Added')  # **will use ajax so don't worry for now**
         elif 'searched' in request.POST: # scenario if user searches in search bar
             # gets data category (options: song, artist, or show)
@@ -365,13 +336,8 @@ def quick_search(request):
             count = len(data_query) # length of the number of matches for a specific query
             if request.user.is_authenticated: # want to send add to list option if authenticated
                 user_song_list = UserList.objects.all() # list of all songs in userlist
-                user_song_already_set = set() # create empty set
                 user_primary = request.user.pk
-                for i in range(len(user_song_list)):
-                    # if the pk of the user song matches current user
-                    if user_song_list[i].ProfileUser.pk == int(user_primary):
-                        # pk of that song added to set
-                        user_song_already_set.add(user_song_list[i].ProfileSong.pk)
+                user_song_already_set = already(user_song_list, user_primary) # function already
                 total_time = time.time() - start_time # end timer
                 total_time = round(total_time, 5) # round timer to 5 decimal places
                 return render(request, 'search/quick_search.html', {

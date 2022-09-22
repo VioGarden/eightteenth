@@ -9,19 +9,19 @@
     (link to score songs)
     (ajax on scoring songs)
 3) Profile Ordering songs/Search ** done **
-4) Customize Home (1)
+4) Customize Home (1) ** done **
 -how to use, with images (home)
-5) Parse and work with bigger data
+5) Parse and work with bigger data ** done **
 6) Media Query
 7) Comments ** done **
 8) Update admin -----
 9) current navbar is highlighted ** done **
-10) shorten code (into functions, less lines)
+10) shorten code (into functions, less lines) ** done **
 12) favorites -------
-13) error message if wrong login submission
+13) error message if wrong login submission ** done **
 14) paganiation space to click too small *big
 15) customize dropdowns 
-16) not resetting upon search 
+16) not resetting upon search ** done **
 
 1) not refreshing form upon reset ** done **
 2) error message with login submission  ** done **
