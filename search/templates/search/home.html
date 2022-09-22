@@ -10,56 +10,78 @@
 </head>
 <body>
     {% block content %}
-    {% if user.is_authenticated %}
-    <p>Hello {{ user }}</p>
-
-    <div class="wrapper1" style="border: 2px solid red;">
+    {% if not user.is_authenticated %}
+    <div class="wrapper1">
         <div class="wrapper1header"><h2>Search Our Comprehensive Database</h2></div>
-        <div><h3>Song List</h3></div>
-        <div><h3>Quick Search</h3></div>
-        <div><h3>Filter</h3></div>
-        <div class="songlist1"><img class="img" src="static/songlistimg/noauth-song-list.png" alt=""></div>
-        <div class="quick1"><img class="img" src="static/songlistimg/noauth-quick.png" alt=""></div>
-        <div class="filter1"><img class="img" src="static/songlistimg/auth-filter.png" alt=""></div>
-        <div class="songlist2"><img class="img" src="static/songlistimg/noauth-song-list-hover.png" alt=""></div>
-        <div class="quick2"><img class="img" src="static/songlistimg/noauth-quick-select.png" alt=""></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/noauth-search.png" alt=""></div>
-        <div class="songlist3"><img class="img" src="static/songlistimg/noauth-song-list-page.png" alt=""></div>
-        <div class="quick3"><img class="img" src="static/songlistimg/noauth-quick-search.png" alt=""></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/noauth-search-results.png" alt=""></div>
-        <div></div>
-        <div class="quick3"><img class="img" src="static/songlistimg/noauth-quick-results.png" alt=""></div>
-        <div class="filter4"><img class="img" src="static/songlistimg/noauth-filter-result-tab.png" alt=""></div>
+        <div><p class="home-text-center orange-words">1. Song List Tab</p></div>
+        <div><p class="home-text-center yellow-words">1. Quick Search Tab</p></div>
+        <div><p class="home-text-center purple-words">1. Filter Search Tab</p></div>
+        <div class="orange-border"><img class="img" src="static/songlistimg/noauth-song-list.png" alt="songlist"></div>
+        <div class="yellow-border"><img class="img" src="static/songlistimg/noauth-quick.png" alt="quick search"></div>
+        <div class="purple-border"><img class="img" src="static/songlistimg/noauth-filter.png" alt="filter search"></div>
+        <div><p class="home-text-center orange-words">2. Click on each song for extra information</p></div>
+        <div><p class="home-text-center yellow-words">2. Select type to filter by</p></div>
+        <div><p class="home-text-center purple-words">2. Input keywords into fields</p></div>
+        <div class="orange-border"><img class="img" src="static/songlistimg/noauth-song-list-hover.png" alt="clickable songs"></div>
+        <div class="yellow-border"><img class="img" src="static/songlistimg/noauth-quick-select.png" alt="select type"></div>
+        <div class="purple-border"><img class="img" src="static/songlistimg/noauth-search.png" alt="enter fields"></div>
+        <div><p class="home-text-center orange-words">3. Scroll down for more songs, 100 songs per page</p></div>
+        <div><p class="home-text-center yellow-words">3. Type in keyword to search by</p></div>
+        <div><p class="home-text-center purple-words">3. Results of filter search</p></div>
+        <div class="orange-border"><img class="img" src="static/songlistimg/noauth-song-list-page.png" alt="pagination"></div>
+        <div class="yellow-border"><img class="img" src="static/songlistimg/noauth-quick-search.png" alt="search"></div>
+        <div class="purple-border"><img class="img" src="static/songlistimg/noauth-search-results.png" alt="filter results"></div>
+        <div><p class="home-text-center pink-words">1. Nav Search Bar is an option too!</p></div>
+        <div><p class="home-text-center yellow-words">4. Results of quick search</p></div>
+        <div><p class="home-text-center purple-words">4. Clicking on songs give extra information</p></div>
+        <div class="pink-border"><img class="img" src="static/songlistimg/noauth-nav-search.png" alt="nav search"></div>
+        <div class="yellow-border"><img class="img" src="static/songlistimg/noauth-quick-results.png" alt="quick results"></div>
+        <div class="purple-border"><img class="img" src="static/songlistimg/noauth-filter-opedin7.png" alt="opedin field"></div>
     </div>
-    <div class="wrapper2" style="border: 2px solid blue;">
+    <div class="wrapper2">
         <div class="wrapper2header"><h2>Register or Login to create and score your own song list!</h2></div>
-        <div class="songlist1"><img class="img" src="static/songlistimg/login.png" alt=""></div>
-        <div class="songlist2"><img class="img" src="static/songlistimg/register.png" alt=""></div>
+        <div class="light-blue-border"><img class="img" src="static/songlistimg/login.png" alt="login page"></div>
+        <div class="light-blue-border"><img class="img" src="static/songlistimg/register.png" alt="register page"></div>
     </div>
-    <div class="wrapper3" style="border: 2px solid yellow;">
-        <div class="wrapper3header"><h1>Accessing the website in full!</h1></div>
-        <div class="wrapper3header"><h2>Adding songs to your list</h2></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="empty profile"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="search"></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="add"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="appears in profile"></div>
-        <div class="wrapper3header"><h2>Removing songs from your list</h2></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="press -"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="dissapears from profile"></div>
-        <div class="wrapper3header"><h2>Scoring songs in your list</h2></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="profile"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="hover over none"></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="select score"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="auto refreshes"></div>
-        <div class="wrapper3header"><h2>Ordering songs in your list</h2></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="pre order, added order"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="select order method"></div>
-        <div class="filter2"><img class="img" src="static/songlistimg/auth-filter.png" alt="order by oppo score"></div>
-        <div class="filter3"><img class="img" src="static/songlistimg/auth-filter.png" alt="order by show"></div>
-    </div>
-    {% else %}
-    <p>Hello, you are not logged in</p>
     {% endif %}
+    <div class="wrapper3">
+        <div class="wrapper3header"><h1>Accessing the website in full!</h1></div>
+        <div><p class="home-text-center green-words">1. Adding songs to your profile/personal list</p></div>
+        <div><p class="home-text-center green-words">2. Use filters to search for songs</p></div>
+        <div class="green-border"><img class="img" src="static/songlistimg/auth-add-1.png" alt="empty profile"></div>
+        <div class="green-border"><img class="img" src="static/songlistimg/auth-add-2.png" alt="search"></div>
+        <div><p class="home-text-center green-words">3. Search results will have a "+" button (registered users only)</p></div>
+        <div><p class="home-text-center green-words">4. Hover over "+" and click</p></div>
+        <div class="green-border"><img class="img" src="static/songlistimg/auth-add-3.png" alt="results of search"></div>
+        <div class="green-border"><img class="img" src="static/songlistimg/auth-add-4.png" alt="hover over add button"></div>
+        <div><p class="home-text-center green-words">5. Button dissapears</p></div>
+        <div><p class="home-text-center green-words">6. Song is added to profile/personal list</p></div>
+        <div class="green-border"><img class="img" src="static/songlistimg/auth-add-5.png" alt="click add button"></div>
+        <div class="green-border"><img class="img" src="static/songlistimg/auth-add-6.png" alt="appears in profile"></div>
+        <div class="wrapper3header"><h2>Removing songs in your list</h2></div>
+        <div><p class="home-text-center red-words">1. Hover over "-" button</p></div>
+        <div><p class="home-text-center red-words">2. Click "-" to remove</p></div>
+        <div class="red-border"><img class="img" src="static/songlistimg/remove-1.png" alt="press -"></div>
+        <div class="red-border"><img class="img" src="static/songlistimg/remove-2.png" alt="dissapears from profile"></div>
+        <div class="wrapper3header"><h2>Scoring songs in your list</h2></div>
+        <div><p class="home-text-center dark-blue-words">1. Example of profile with added songs</p></div>
+        <div><p class="home-text-center dark-blue-words">2. Hovering over "None" reveals a dropdown</p></div>
+        <div class="dark-blue-border"><img class="img" src="static/songlistimg/score-1.png" alt="profile"></div>
+        <div class="dark-blue-border"><img class="img" src="static/songlistimg/score-2.png" alt="hover over none"></div>
+        <div><p class="home-text-center dark-blue-words">3. Select desired score from dropdown</p></div>
+        <div><p class="home-text-center dark-blue-words">4. Lock it in!</p></div>
+        <div class="dark-blue-border"><img class="img" src="static/songlistimg/score-3.png" alt="select score"></div>
+        <div class="dark-blue-border"><img class="img" src="static/songlistimg/score-4.png" alt="auto refreshes"></div>
+        <div class="wrapper3header"><h2>Ordering songs in your list</h2></div>
+        <div><p class="home-text-center dark-purple-words">1. Default order is date added: old(top) to new(bottom)</p></div>
+        <div><p class="home-text-center dark-purple-words">2. Select desired ordering scheme</p></div>
+        <div class="dark-purple-border"><img class="img" src="static/songlistimg/order-1.png" alt="pre order, added order"></div>
+        <div class="dark-purple-border"><img class="img" src="static/songlistimg/order-2.png" alt="select order method"></div>
+        <div><p class="home-text-center dark-purple-words">3. Press "order songs"</p></div>
+        <div><p class="home-text-center dark-purple-words">4. Songs have been ordered</p></div>
+        <div class="dark-purple-border"><img class="img" src="static/songlistimg/order-3.png" alt="order by oppo score"></div>
+        <div class="dark-purple-border"><img class="img" src="static/songlistimg/order-4.png" alt="order by show"></div>
+    </div>
     {% endblock %}
 </body>
 </html>

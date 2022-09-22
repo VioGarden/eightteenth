@@ -509,7 +509,6 @@ a:active {
 .img { 
     max-width: 100%; 
     height: auto ;
-    border: 2px solid black;
 }
 
 .wrapper2 {
@@ -535,4 +534,123 @@ a:active {
     grid-column: 1/-1;
     display: flex;
     justify-content: center;
+}
+
+.submit-add {
+    border: 2px solid rgb(24, 102, 24);
+    box-shadow: inset 0px 10px 10px rgb(68, 168, 88), inset 0px -5px 15px rgb(55, 55, 194);
+}
+
+.submit-add:hover {
+    border: 2px solid rgb(16, 66, 16);
+    box-shadow: inset 0px 10px 10px rgb(45, 109, 57), inset 0px -5px 15px rgb(35, 35, 125);
+}
+
+.submit-add:active {
+    border: 2px solid rgb(12, 48, 12);
+    box-shadow: inset 0px 10px 10px rgb(31, 76, 40), inset 0px -5px 15px rgb(23, 23, 82);
+}
+
+.submit-remove {
+    border: 2px solid rgb(217, 124, 124);
+    box-shadow: inset 0px 10px 10px rgb(205, 168, 167), inset 0px -5px 15px rgb(151, 74, 187);
+}
+
+.submit-remove:hover {
+    border: 2px solid rgb(136, 47, 47);
+    box-shadow: inset 0px 10px 10px rgb(133, 70, 68), inset 0px -5px 15px rgb(103, 31, 136);
+}
+
+.submit-remove:active {
+    border: 2px solid rgb(106, 20, 20);
+    box-shadow: inset 0px 10px 10px rgb(66, 26, 24), inset 0px -5px 15px rgb(73, 17, 99);
+}
+
+.score-header {
+    position: relative;
+}
+
+.score-header-p {
+    position: absolute; 
+    right: 27px; 
+    top: -38px; 
+    z-index: 1; 
+    font-size: 1.2rem;
+}
+
+.order-songs:hover {
+    background-color: rgb(122, 182, 32);
+}
+
+.home-text-center {
+    display: flex;
+    justify-content: center;
+}
+
+.orange-words {
+    color: orange;
+}
+
+.orange-border {
+    border: 2px solid orange;
+}
+
+.yellow-words {
+    color: yellow
+}
+
+.yellow-border {
+    border: 2px solid yellow;
+}
+
+.purple-words {
+    color: rgb(154, 81, 154);
+}
+
+.purple-border {
+    border: 2px solid rgb(154, 81, 154);;
+}
+
+.pink-words {
+    color: pink;
+}
+
+.pink-border {
+    border: 2px solid pink;
+}
+
+.light-blue-border {
+    border: 2px solid lightskyblue;
+}
+
+.red-words {
+    color: red;
+}
+
+.red-border {
+    border: 2px solid red;
+}
+
+.green-words {
+    color: green;
+}
+
+.green-border {
+    border: 2px solid green;
+}
+
+.dark-blue-words {
+    color: rgb(80, 80, 158);
+}
+
+.dark-blue-border {
+    border: 2px solid rgb(80, 80, 158);
+}
+
+.dark-purple-words {
+    color: rgb(78, 45, 80);
+}
+
+.dark-purple-border {
+    border: 2px solid rgb(78, 45, 80);
 }
