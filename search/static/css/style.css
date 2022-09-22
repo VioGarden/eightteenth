@@ -505,6 +505,10 @@ a:active {
     grid-row: 1;
     display: flex;
     justify-content: center;
+    color: #a97142;
+    font-family: 'Acme', sans-serif;
+    font-size: 2rem;
+    margin-top:1rem;
 }
 .img { 
     max-width: 100%; 
@@ -522,6 +526,10 @@ a:active {
     grid-row: 1;
     display: flex;
     justify-content: center;
+    color: #BCC6CC;
+    font-family: 'Acme', sans-serif;
+    font-size: 2rem;
+    margin-top:1.5rem;
 }
 
 .wrapper3 {
@@ -534,6 +542,10 @@ a:active {
     grid-column: 1/-1;
     display: flex;
     justify-content: center;
+    color: #d4af37;
+    font-family: 'Acme', sans-serif;
+    font-size: 2rem;
+    margin-top:1.5rem;
 }
 
 .submit-add {
@@ -588,69 +600,109 @@ a:active {
 }
 
 .orange-words {
-    color: orange;
+    color: rgb(165, 140, 92);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.1rem;
 }
 
 .orange-border {
-    border: 2px solid orange;
+    /* border: 2px solid orange; */
+    border: none;
 }
 
 .yellow-words {
-    color: yellow
+    color: rgb(164, 164, 79);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.1rem;
 }
 
 .yellow-border {
-    border: 2px solid yellow;
+    /* border: 2px solid yellow; */
+    border: none;
 }
 
 .purple-words {
-    color: rgb(154, 81, 154);
+    color: rgb(167, 99, 167);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.1rem;
 }
 
 .purple-border {
-    border: 2px solid rgb(154, 81, 154);;
+    /* border: 2px solid rgb(154, 81, 154); */
+    border: none;
 }
 
 .pink-words {
-    color: pink;
+    color: rgb(211, 151, 161);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.1rem;
 }
 
 .pink-border {
-    border: 2px solid pink;
+    /* border: 2px solid pink; */
+    border: none;
+}
+
+.light-blue-words {
+    color: lightskyblue;
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.25rem;
 }
 
 .light-blue-border {
-    border: 2px solid lightskyblue;
+    /* border: 2px solid lightskyblue; */
+    border: none;
 }
 
 .red-words {
-    color: red;
+    color: rgb(219, 83, 83);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.25rem;
 }
 
 .red-border {
-    border: 2px solid red;
+    /* border: 2px solid red; */
+    border: none;
 }
 
 .green-words {
-    color: green;
+    color: rgb(59, 185, 59);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.25rem;
 }
 
 .green-border {
-    border: 2px solid green;
-}
-
-.dark-blue-words {
-    color: rgb(80, 80, 158);
-}
-
-.dark-blue-border {
-    border: 2px solid rgb(80, 80, 158);
+    /* border: 2px solid green; */
+    border: none;
 }
 
 .dark-purple-words {
-    color: rgb(78, 45, 80);
+    color: rgb(168, 134, 169);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.25rem;
 }
 
 .dark-purple-border {
-    border: 2px solid rgb(78, 45, 80);
+    /* border: 2px solid rgb(78, 45, 80); */
+    border: none;
+}
+
+.dark-blue-words {
+    color: rgb(121, 121, 218);
+    margin-top: 0.6rem;
+    text-decoration: underline;
+    font-size: 1.25rem;
+}
+
+.dark-blue-border {
+    /* border: 2px solid rgb(80, 80, 158); */
+    border: none;
 }
